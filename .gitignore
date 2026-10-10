@@ -2,18 +2,40 @@
 node_modules/
 
 # Playwright test results and reports
-playwright-report/
-test-results/
-blob-report/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
 
-# Authentication state and sensitive test data
-playwright/.auth/
+# Playwright authentication state
+/playwright/.auth/
+
+# Environment variables and secrets
 .env
 .env.*
-
-# Keep an example environment file if you use one
 !.env.example
 
-# Debug output
+# TypeScript build output
+/dist/
+/build/
+/out/
+/*.tsbuildinfo
+
+# Coverage reports
+/coverage/
+
+# Logs
 npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Debugging
+playwright/.last-run.json
+
+# Editor and operating system files
 .DS_Store
+.idea/
+.vscode/
+
+# Optional: Uncomment if you don't want to track local editor settings
+# .vscode/*
