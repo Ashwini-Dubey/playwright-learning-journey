@@ -8,11 +8,9 @@ pipeline {
     }
 
     environment {
-        // Homebrew paths for a typical Apple Silicon Mac.
-        // Adjust if your Mac uses Intel Homebrew.
-        PATH = "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-        CI = "true"
-    }
+    PATH = "/Users/ashwinidubey/.nvm/versions/node/v22.8.0/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+    CI = "true"
+}
 
     stages {
         stage('Checkout') {
@@ -22,11 +20,24 @@ pipeline {
         }
 
         stage('Environment Check') {
-            steps {
-                sh 'node --version'
-                sh 'npm --version'
-            }
-        }
+    steps {
+        sh '''
+            export PATH="/Users/ashwinidubey/.nvm/versions/node/v22.8.0/bin:$PATH"
+
+            echo "Checking Node.js..."
+            node --version
+
+            echo "Checking npm..."
+            npm --version
+
+            echo "Node executable:"
+            which node
+
+            echo "npm executable:"
+            which npm
+        '''
+    }
+}
 
         stage('Install Dependencies') {
             steps {
