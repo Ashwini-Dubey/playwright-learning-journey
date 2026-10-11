@@ -13,7 +13,7 @@ test("First Playwright Test", async ({ browser }) => {
 });
 
 // Test 2: Use the built-in page fixture provided by Playwright
-test.only("First Playwright Test1", async ({ browser, page }) => {
+test("First Playwright Test1", async ({ browser, page }) => {
   // Navigate to the login page using the automatically created page
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 });
