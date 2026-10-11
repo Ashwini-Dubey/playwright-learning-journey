@@ -1,3 +1,15 @@
+/*
+Concepts Covered:
+1. Playwright test structure and browser/page fixtures
+2. Manual browser context and page creation
+3. Browser context isolation and cleanup
+4. Page navigation using page.goto()
+5. Retrieving page title and URL
+6. Assertions: toHaveTitle() and toHaveURL()
+7. Debugging using console.log()
+8. Automatic vs. manual browser resource management
+*/
+
 import { test, expect } from "@playwright/test";
 
 // Test 1: Create a browser context and page manually
