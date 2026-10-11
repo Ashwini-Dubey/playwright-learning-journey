@@ -1,15 +1,14 @@
 /*
 Concepts Covered:
-1. Playwright imports, test structure, and built-in page fixture
+1. Playwright test structure, imports, and page fixture
 2. Environment variables using dotenv
 3. Page navigation using page.goto()
-4. Locators: CSS, getByLabel(), getByRole()
-5. Element interactions: fill() and click()
+4. Locators: CSS, getByLabel(), and getByRole()
+5. Reusable locators and element interactions: fill() and click()
 6. Assertions: URL, visibility, and text validation
 7. Element text retrieval using textContent()
 8. Positive and negative login scenarios
 9. Debugging using console.log()
-10. Reusable locator variables
 */
 
 import "dotenv/config";
@@ -19,18 +18,20 @@ import { test, expect } from "@playwright/test";
 const rs_username = process.env.RS_USERNAME;
 const rs_password = process.env.RS_PASSWORD;
 
-// Test 1: Login using CSS locators
+// Test 1: Enter credentials using reusable CSS locators
 test("Login form accepts credentials using CSS locators", async ({ page }) => {
+  // Define the login page URL
   const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
+
+  // Create reusable CSS locators for the username and password fields
   const username = page.locator("input#username");
   const password = page.locator("input#password");
-  // Open the login page
+
+  // Navigate to the login page
   await page.goto(BASE_URL);
 
-  // Locate the username field using a CSS selector and enter the username
+  // Enter the username and password using the reusable locators
   await username.fill(rs_username);
-
-  // Locate the password field using a CSS selector and enter the password
   await password.fill(rs_password);
 });
 
@@ -57,7 +58,7 @@ test("User logs in successfully using accessible locators", async ({
 });
 
 // Test 3: Verify the error message displayed after an invalid login attempt
-test.only("User sees an error message when login credentials are invalid", async ({
+test("User sees an error message when login credentials are invalid", async ({
   page,
 }) => {
   // Open the login page
