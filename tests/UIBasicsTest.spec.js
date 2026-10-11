@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import exp from "constants";
 
 // Test 1: Create a browser context and page manually
 test("First Playwright Test", async ({ browser }) => {
@@ -17,5 +18,9 @@ test("First Playwright Test1", async ({ browser, page }) => {
   // Navigate to the login page using the automatically created page
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   console.log(await page.title());
-  expect(page).toHaveTitle("LoginPage Practise | Rahul Shetty Academy");
+  await expect(page).toHaveTitle("LoginPage Practise | Rahul Shetty Academy");
+  console.log(await page.url());
+  await expect(page).toHaveURL(
+    "https://rahulshettyacademy.com/loginpagePractise/",
+  );
 });
