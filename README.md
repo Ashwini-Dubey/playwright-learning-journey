@@ -223,3 +223,45 @@ npx playwright codegen --help
 | `--repeat-each`  | `--repeat-each=3`               | Repeat each test three times           |
 
 | `--
+
+## Jenkins CI Pipeline
+
+This project integrates Playwright UI automation with Jenkins for continuous integration.
+
+### Pipeline stages
+
+1. Checkout source code from GitHub.
+2. Verify Node.js and npm.
+3. Install dependencies using `npm ci`.
+4. Install the Playwright Chromium browser.
+5. Execute automated UI tests.
+6. Publish JUnit test results and archive Playwright reports.
+
+### Technologies
+
+- Playwright Test
+- JavaScript
+- Node.js and npm
+- Jenkins Declarative Pipeline
+- Git and GitHub
+- JUnit XML and Playwright HTML reports
+
+### Execution
+
+Run the tests locally:
+
+```bash
+npm ci
+npx playwright install chromium
+npx playwright test
+```
+
+The Jenkins pipeline is defined in the root-level `Jenkinsfile`.
+
+### CI evidence
+
+- Jenkins build console output
+- Pipeline stage results
+- JUnit test results
+- Playwright HTML report
+- Screenshots and traces for failed tests

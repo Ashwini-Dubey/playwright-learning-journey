@@ -6,86 +6,89 @@ dotenv.config({ path: ".env" });
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
+ * Playwright configuration for local development and Jenkins CI.
  */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-/**
- * @see https://playwright.dev/docs/test-configuration
- */
 export default defineConfig({
   testDir: "./tests",
-  /* Run tests in files in parallel */
+
+  // Run independent test files in parallel.
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
+
+  // Prevent accidental test.only in CI.
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
+
+  // Retry failed tests only in CI.
   retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
+
+  // Use one worker in CI for more predictable execution.
   workers: process.env.CI ? 1 : undefined,
+
+  // Test timeouts.
   timeout: 40_000,
+
   expect: {
     timeout: 5_000,
   },
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: "html",
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+  // Generate both Jenkins-compatible JUnit XML and HTML reports.
+  reporter: [
+    ["list"],
+    [
+      "junit",
+      {
+        outputFile: "test-results/junit.xml",
+      },
+    ],
+    [
+      "html",
+      {
+        outputFolder: "playwright-report",
+        open: "never",
+      },
+    ],
+  ],
+
+  // Shared settings for all browser projects.
+  use: {
+    // Uncomment if your application has a common base URL.
+    // baseURL: "http://localhost:3000",
+
+    // Collect a trace on the first retry.
     trace: "on-first-retry",
+
+    // Run headless in CI and headed locally by default.
     headless: !!process.env.CI,
+
+    // Capture debugging evidence on failure.
     screenshot: "only-on-failure",
     video: "retain-on-failure",
   },
 
-  /* Configure projects for major browsers */
+  // Browser projects.
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
-    },
-    /*
-    {
-      name: "firefox",
-      use: { ...devices["Desktop Firefox"] },
+      use: {
+        ...devices["Desktop Chrome"],
+      },
     },
 
-    {
-      name: "webkit",
-      use: { ...devices["Desktop Safari"] },
-    },
-*/
-    /* Test against mobile viewports. */
+    // Enable additional browsers when needed.
     // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
+    //   name: "firefox",
+    //   use: { ...devices["Desktop Firefox"] },
     // },
     // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    //   name: "webkit",
+    //   use: { ...devices["Desktop Safari"] },
     // },
   ],
 
-  /* Run your local dev server before starting the tests */
+  // Uncomment when testing an application that needs a local server.
   // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
+  //   command: "npm run start",
+  //   url: "http://localhost:3000",
   //   reuseExistingServer: !process.env.CI,
   // },
 });
