@@ -8,10 +8,12 @@ test("Login Test : ", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   await page.locator("input#username").fill(rs_username);
   await page.locator("input#password").fill(rs_password);
+  await page.close();
 });
 
 test("Login Test : Get By Role", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   await page.getByLabel("Username").fill(rs_username);
   await page.getByLabel("Password").fill(rs_password);
+  await page.close();
 });

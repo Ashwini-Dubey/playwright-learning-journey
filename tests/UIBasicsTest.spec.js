@@ -11,10 +11,12 @@ test("First Playwright Test", async ({ browser }) => {
 
   // Navigate to the login page
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+
+  await context.close();
 });
 
 // Test 2: Use the built-in page fixture provided by Playwright
-test("First Playwright Test1", async ({ browser, page }) => {
+test("First Playwright Test1", async ({ page }) => {
   // Navigate to the login page using the automatically created page
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
   console.log(await page.title());
@@ -23,4 +25,5 @@ test("First Playwright Test1", async ({ browser, page }) => {
   await expect(page).toHaveURL(
     "https://rahulshettyacademy.com/loginpagePractise/",
   );
+  await page.close();
 });
