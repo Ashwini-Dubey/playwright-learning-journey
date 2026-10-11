@@ -52,10 +52,18 @@ pipeline {
         }
 
         stage('Run Playwright Tests') {
-            steps {
-                sh 'npx playwright test'
-            }
+    steps {
+        withCredentials([
+            usernamePassword(
+                credentialsId: 'rs-login',
+                usernameVariable: 'RS_USERNAME',
+                passwordVariable: 'RS_PASSWORD'
+            )
+        ]) {
+            sh 'npx playwright test'
         }
+    }
+}
     }
 
     post {
