@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import exp from "constants";
 
 // Test 1: Create a browser context and page manually
 test("First Playwright Test", async ({ browser }) => {
