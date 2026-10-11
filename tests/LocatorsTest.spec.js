@@ -85,3 +85,23 @@ test("User sees an error message when login credentials are invalid", async ({
   // Verify that the error message displays the expected text
   await expect(errorMessage).toHaveText("Incorrect username/password.");
 });
+
+// Test 4: Extracting the details of a product.
+test("Extracting the details of a product", async ({ page }) => {
+  // Open the login page
+  await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+
+  // Locate the username field by its accessible label and enter the username
+  await page.getByLabel("Username").fill(rs_username);
+
+  // Locate the password field by its accessible label and enter the password
+  await page.getByLabel("Password").fill(rs_password);
+
+  // Locate the Sign In button by its role and accessible name, then click it
+  await page.getByRole("button", { name: "Sign In" }).click();
+
+  // Verify that successful login redirects to the shop page
+  await expect(page).toHaveURL(
+    "https://rahulshettyacademy.com/angularpractice/shop",
+  );
+});
