@@ -87,7 +87,7 @@ test("User sees an error message when login credentials are invalid", async ({
 });
 
 // Test 4: Extracting the details of products listed in the shop
-test.only("Extracting the details of a product", async ({ page }) => {
+test("Extracting the details of a product", async ({ page }) => {
   // Navigate to the login page
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
