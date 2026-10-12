@@ -19,9 +19,7 @@ const rs_username = process.env.RS_USERNAME;
 const rs_password = process.env.RS_PASSWORD;
 
 // Test 1: Enter credentials using reusable CSS locators
-test.only("Login form accepts credentials using CSS locators", async ({
-  page,
-}) => {
+test("Login form accepts credentials using CSS locators", async ({ page }) => {
   // Define the login page URL
   const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
 
@@ -88,22 +86,39 @@ test("User sees an error message when login credentials are invalid", async ({
   await expect(errorMessage).toHaveText("Incorrect username/password.");
 });
 
-// Test 4: Extracting the details of a product.
-test("Extracting the details of a product", async ({ page }) => {
-  // Open the login page
+// Test 4: Extracting the details of products listed in the shop
+test.only("Extracting the details of a product", async ({ page }) => {
+  // Navigate to the login page
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
-  // Locate the username field by its accessible label and enter the username
+  // Locate the username field using its accessible label and enter the username
   await page.getByLabel("Username").fill(rs_username);
 
-  // Locate the password field by its accessible label and enter the password
+  // Locate the password field using its accessible label and enter the password
   await page.getByLabel("Password").fill(rs_password);
 
-  // Locate the Sign In button by its role and accessible name, then click it
+  // Locate the Sign In button using its role and accessible name, then click it
   await page.getByRole("button", { name: "Sign In" }).click();
 
-  // Verify that successful login redirects to the shop page
+  // Verify that successful login redirects the user to the shop page
   await expect(page).toHaveURL(
     "https://rahulshettyacademy.com/angularpractice/shop",
   );
+
+  // Locate the product link named "iphone X" and print its text content
+  console.log(await page.getByRole("link", { name: "iphone X" }).textContent());
+
+  // Verify that the product link displays the expected product name
+  await expect(page.getByRole("link", { name: "iphone X" })).toHaveText(
+    "iphone X",
+  );
+
+  // Locate all links inside product card bodies and print their text contents
+  console.log(await page.locator(".card-body a").allTextContents());
+
+  // Store the text contents of all product links in the products array
+  const products = await page.locator(".card-body a").allTextContents();
+
+  // Print the extracted product names to the console
+  console.log(products);
 });
