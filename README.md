@@ -22,6 +22,7 @@ The goal is to build job-ready QA automation skills by writing, executing, debug
   - [9. Daily Workflow](#9-daily-workflow)
   - [10. Official Documentation](#10-official-documentation)
 - [Jenkins CI Pipeline](#jenkins-ci-pipeline)
+- [CI Evidence](#ci-evidence)
 - [Running Tests Locally](#running-tests-locally)
 - [Skills Demonstrated](#skills-demonstrated)
 - [Repository](#repository)
@@ -439,7 +440,7 @@ The pipeline demonstrates continuous integration by automating dependency instal
 - Playwright HTML report archiving.
 - Screenshots, traces, and videos for failure investigation.
 - Environment-based test configuration and securely managed credentials.
-- Automatic build triggering through configured GitHub change detection.
+- CI execution validated through a successful Jenkins build (see the evidence links below).
 
 ## Technology Stack
 
@@ -474,6 +475,39 @@ Depending on the build configuration, Jenkins can publish or archive:
 Generated artifacts are intended for analysis and troubleshooting. They do not need to be committed to GitHub.
 
 ---
+
+---
+
+# CI Evidence
+
+The following screenshots document the Jenkins CI pipeline and its successful run. They are retained as evidence of the implementation and observed results.
+
+> **Evidence note:** These screenshots are hosted on Kommodo and the links are temporary; the hosting page indicates an expiry date of **November 11, 2026**. For durable portfolio evidence, download the images and commit them to a repository folder such as `docs/evidence/`, then replace these external links with relative image links.
+
+## 1. Successful Playwright test execution
+
+[Open screenshot: Playwright test results](https://kommodo.ai/i/xMG0UNoMf5lGYIonrKrO)
+
+The shared screenshot records a successful test run with **6 tests passed, 0 failures**, including 4 tests in `LocatorsTest.spec.js` and 2 tests in `UIBasicsTest.spec.js`.
+
+## 2. Jenkins pipeline stage results
+
+[Open screenshot: Jenkins pipeline stages](https://kommodo.ai/i/YdFmTciuyXOSkgY8cHoi)
+
+The shared screenshot shows a successful Jenkins pipeline run, including checkout, environment validation, dependency installation, Playwright browser setup, test execution, and post-build actions.
+
+## 3. Archived test reports and artifacts
+
+[Open screenshot: Jenkins build artifacts](https://kommodo.ai/i/7fO1koiHrqVKyvZ5TLsV)
+
+The shared screenshot shows the archived `index.html` Playwright report, `last-run.json`, and `junit.xml` artifacts associated with the successful build.
+
+## Evidence-backed CI status
+
+- **Jenkins build:** Build #6 shown as successful in the shared evidence.
+- **Test results:** 6 passed and 0 failed in the shared test-results screenshot.
+- **Reports/artifacts:** HTML report and JUnit XML are shown among the archived artifacts.
+- **Automatic GitHub triggering:** Not established by these screenshots; verify separately with a push-triggered build before claiming it is working.
 
 # Running Tests Locally
 
