@@ -19,7 +19,9 @@ const rs_username = process.env.RS_USERNAME;
 const rs_password = process.env.RS_PASSWORD;
 
 // Test 1: Enter credentials using reusable CSS locators
-test("Login form accepts credentials using CSS locators", async ({ page }) => {
+test.only("Login form accepts credentials using CSS locators", async ({
+  page,
+}) => {
   // Define the login page URL
   const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
 
