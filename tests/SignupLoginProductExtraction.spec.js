@@ -7,6 +7,7 @@ function emailGenerator() {
 
 const email_id = emailGenerator();
 const password = "Password123";
+const BASE_URL = "https://rahulshettyacademy.com/client/auth/login";
 
 // Log the generated email for debugging purposes.
 console.log("Generated Email:", email_id);
@@ -16,9 +17,6 @@ console.log("Generated Email:", email_id);
 test.describe.serial("Signup and Login Flow", () => {
   // Test 1: Verify that a new user can register successfully.
   test("Sign Up - Register a new user successfully", async ({ page }) => {
-    // Store the login page URL in a constant.
-    const BASE_URL = "https://rahulshettyacademy.com/client/auth/login";
-
     // Navigate to the login page.
     await page.goto(BASE_URL);
 
@@ -69,9 +67,6 @@ test.describe.serial("Signup and Login Flow", () => {
 
   // Test 2: Run only after the signup test passes.
   test("Login - Log in with valid credentials", async ({ page }) => {
-    // Store the login page URL in a constant.
-    const BASE_URL = "https://rahulshettyacademy.com/client/auth/login";
-
     // Navigate to the login page.
     await page.goto(BASE_URL);
 
@@ -88,5 +83,42 @@ test.describe.serial("Signup and Login Flow", () => {
 
     // Verify that login succeeds by checking the dashboard URL.
     await expect(page).toHaveURL(/.*dashboard/);
+  });
+
+  // Test 3: Verify that product names can be extracted from the shop page.
+  test("Product Extraction - Extract product names from the shop page", async ({
+    page,
+  }) => {
+    // Navigate to the login page.
+    await page.goto(BASE_URL);
+
+    // Enter the same email address used during registration.
+    await page
+      .getByRole("textbox", { name: "email@example.com" })
+      .fill(email_id);
+
+    // Enter the password associated with the registered account.
+    await page.getByPlaceholder("enter your passsword").fill(password);
+
+    // Submit the login form.
+    await page.getByRole("button").click();
+
+    // Verify that login succeeds by checking the dashboard URL.
+    await expect(page).toHaveURL(/.*dashboard/);
+
+    // Locate the product by its exact visible text.
+    const product = page.getByText("ZARA COAT 3", { exact: true });
+
+    // Verify that the product is visible on the page.
+    await expect(product).toBeVisible();
+
+    // Extract the product name and store it in a variable.
+    const productName = await product.textContent();
+
+    // Print the extracted product name in the terminal.
+    console.log("Extracted Product:", productName);
+
+    // Verify that the extracted product name matches the expected value.
+    expect(productName?.trim()).toBe("ZARA COAT 3");
   });
 });
