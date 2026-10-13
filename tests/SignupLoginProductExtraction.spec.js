@@ -1,61 +1,92 @@
 import { test, expect } from "@playwright/test";
 
+// Generate a unique email address once and reuse it across both tests.
 function emailGenerator() {
-  const email = `testuser${Date.now()}@test.com`;
-  return email;
+  return `testuser${Date.now()}@test.com`;
 }
 
 const email_id = emailGenerator();
+const password = "Password123";
 
-console.log(email_id);
+// Log the generated email for debugging purposes.
+console.log("Generated Email:", email_id);
 
-// Test 1: Verify that a new user can register successfully.
-test("Sign Up - Register a new user successfully", async ({ page }) => {
-  // Store the login page URL in a constant.
-  const BASE_URL = "https://rahulshettyacademy.com/client/auth/login";
+// Run these tests sequentially.
+// If signup fails, Playwright skips the login test.
+test.describe.serial("Signup and Login Flow", () => {
+  // Test 1: Verify that a new user can register successfully.
+  test("Sign Up - Register a new user successfully", async ({ page }) => {
+    // Store the login page URL in a constant.
+    const BASE_URL = "https://rahulshettyacademy.com/client/auth/login";
 
-  // Navigate to the login page.
-  await page.goto(BASE_URL);
+    // Navigate to the login page.
+    await page.goto(BASE_URL);
 
-  // Click the link that redirects the user to the registration page.
-  await page.locator("p.login-wrapper-footer-text").click();
+    // Navigate to the registration page.
+    await page.locator("p.login-wrapper-footer-text").click();
 
-  // Verify that the user has been redirected to the registration page.
-  await expect(page).toHaveURL(
-    "https://rahulshettyacademy.com/client/#/auth/register",
-  );
+    // Verify that the registration page is displayed.
+    await expect(page).toHaveURL(
+      "https://rahulshettyacademy.com/client/#/auth/register",
+    );
 
-  // Enter the user's first name.
-  await page.getByRole("textbox", { name: "First Name" }).fill("Test");
+    // Enter the user's first name.
+    await page.getByRole("textbox", { name: "First Name" }).fill("Test");
 
-  // Enter the user's last name.
-  await page.getByRole("textbox", { name: "Last Name" }).fill("User");
+    // Enter the user's last name.
+    await page.getByRole("textbox", { name: "Last Name" }).fill("User");
 
-  // Enter a valid email address for registration.
-  await page.getByRole("textbox", { name: "email@example.com" }).fill(email_id);
+    // Enter the generated email address.
+    await page
+      .getByRole("textbox", { name: "email@example.com" })
+      .fill(email_id);
 
-  // Enter the user's mobile number.
-  await page
-    .getByRole("textbox", { name: "enter your number" })
-    .fill("1244564686");
+    // Enter the user's mobile number.
+    await page
+      .getByRole("textbox", { name: "enter your number" })
+      .fill("1244564686");
 
-  // Select the Male radio button.
-  await page.getByRole("radio", { name: "Male", exact: true }).check();
+    // Select the Male radio button.
+    await page.getByRole("radio", { name: "Male", exact: true }).check();
 
-  // Enter the password.
-  await page.locator("input#userPassword").fill("Password123");
+    // Enter the password.
+    await page.locator("input#userPassword").fill(password);
 
-  // Enter the same password to confirm it.
-  await page.locator("input#confirmPassword").fill("Password123");
+    // Confirm the password.
+    await page.locator("input#confirmPassword").fill(password);
 
-  // Accept the age confirmation checkbox.
-  await page.getByText("I am 18 year or Older").click();
+    // Accept the age confirmation checkbox.
+    await page.getByRole("checkbox").check();
 
-  // Click the registration button to submit the form.
-  await page.getByRole("button").click();
+    // Submit the registration form.
+    await page.getByRole("button").click();
 
-  // Verify the resulting page URL after form submission.
-  await expect(page).toHaveURL(
-    "https://rahulshettyacademy.com/client/#/auth/register",
-  );
+    // Verify that the account was created successfully.
+    await expect(
+      page.getByText("Account Created Successfully", { exact: true }),
+    ).toBeVisible();
+  });
+
+  // Test 2: Run only after the signup test passes.
+  test("Login - Log in with valid credentials", async ({ page }) => {
+    // Store the login page URL in a constant.
+    const BASE_URL = "https://rahulshettyacademy.com/client/auth/login";
+
+    // Navigate to the login page.
+    await page.goto(BASE_URL);
+
+    // Enter the same email address used during registration.
+    await page
+      .getByRole("textbox", { name: "email@example.com" })
+      .fill(email_id);
+
+    // Enter the same password used during registration.
+    await page.getByPlaceholder("enter your passsword").fill(password);
+
+    // Submit the login form.
+    await page.getByRole("button").click();
+
+    // Verify that login succeeds by checking the dashboard URL.
+    await expect(page).toHaveURL(/.*dashboard/);
+  });
 });

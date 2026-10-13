@@ -59,6 +59,7 @@ export default defineConfig({
 
     // Run headless in CI and headed locally by default.
     headless: !!process.env.CI,
+    //headless: true,
 
     // Capture debugging evidence on failure.
     screenshot: "only-on-failure",
