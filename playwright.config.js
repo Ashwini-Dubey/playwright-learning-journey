@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: ".env" });
 
 import { defineConfig, devices } from "@playwright/test";
+import reportingLabs from "./reporting-labs.config";
 
 /**
  * Playwright configuration for local development and Jenkins CI.
@@ -34,6 +35,7 @@ export default defineConfig({
   // Generate both Jenkins-compatible JUnit XML and HTML reports.
   reporter: [
     ["list"],
+    ["reporting-labs", reportingLabs],
     [
       "junit",
       {

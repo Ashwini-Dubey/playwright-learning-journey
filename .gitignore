@@ -39,3 +39,6 @@ playwright/.last-run.json
 
 # Optional: Uncomment if you don't want to track local editor settings
 # .vscode/*
+
+reporting-labs/
+reporting-labs.*

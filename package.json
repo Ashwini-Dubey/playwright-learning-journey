@@ -12,7 +12,8 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.64.0",
-    "@types/node": "^26.6.5"
+    "@types/node": "^26.6.5",
+    "reporting-labs": "^0.6.18"
   },
   "dependencies": {
     "dotenv": "^18.0.7"
