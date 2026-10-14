@@ -41,4 +41,4 @@ playwright/.last-run.json
 # .vscode/*
 
 reporting-labs/
-reporting-labs.*
+reporting-labs.history.json
