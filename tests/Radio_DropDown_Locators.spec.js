@@ -1,33 +1,53 @@
+// Load environment variables from the .env file.
 import "dotenv/config";
+
+// Import Playwright's test runner and assertion library.
 import { test, expect } from "@playwright/test";
 
-// Read login credentials from the .env file
+// Read login credentials from environment variables.
 const rs_username = process.env.RS_USERNAME;
 const rs_password = process.env.RS_PASSWORD;
 
+// Store the practice application's login page URL.
 const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
 
-test.only("Handling Radio Buttons and Select Dropdown", async ({ page }) => {
+// Test: Verify radio buttons, dropdown selection, checkbox, and login.
+test("Login Form - Verify input fields and form controls", async ({ page }) => {
+  // Define reusable locators for the page elements.
+  const usernameField = page.getByLabel("Username");
+  const passwordField = page.getByLabel("Password");
+  const userRadio = page.getByLabel("User", { exact: true });
+  const consultantDropdown = page.getByRole("combobox");
+  const termsCheckbox = page.locator("input#terms");
+  const signInButton = page.getByRole("button", { name: "Sign In" });
+
+  // Navigate to the login page.
   await page.goto(BASE_URL);
 
-  // Locate the username field using its accessible label and enter the username
-  await page.getByLabel("Username").fill(rs_username);
+  // Enter the username retrieved from the .env file.
+  await usernameField.fill(rs_username);
 
-  // Locate the password field using its accessible label and enter the password
-  await page.getByLabel("Password").fill(rs_password);
+  // Enter the password retrieved from the .env file.
+  await passwordField.fill(rs_password);
 
   // Select the User radio button.
-  await page.getByLabel("User", { exact: true }).check();
+  await userRadio.check();
 
   // Verify that the User radio button is selected.
-  await expect(page.getByLabel("User", { exact: true })).toBeChecked();
+  await expect(userRadio).toBeChecked();
 
-  // Select the Consultant option from the dropdown.
-  await page.getByRole("combobox").selectOption({ label: "Consultant" });
+  // Select the Consultant option from the dropdown by its visible label.
+  await consultantDropdown.selectOption({ label: "Consultant" });
 
-  // Verify that the Consultant option is selected.
-  await expect(page.getByRole("combobox")).toHaveValue("consult");
+  // Verify that the selected dropdown option has the expected value.
+  await expect(consultantDropdown).toHaveValue("consult");
 
-  // Locate the Sign In button using its role and accessible name, then click it
-  await page.getByRole("button", { name: "Sign In" }).click();
+  // Select the terms and conditions checkbox.
+  await termsCheckbox.check();
+
+  // Verify that the terms and conditions checkbox is selected.
+  await expect(termsCheckbox).toBeChecked();
+
+  // Click the Sign In button to submit the login form.
+  await signInButton.click();
 });
