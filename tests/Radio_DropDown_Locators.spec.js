@@ -12,44 +12,47 @@ const rs_password = process.env.RS_PASSWORD;
 const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
 
 // Test: Verify radio buttons, dropdown selection, checkbox, and login.
-test("Login Form - Verify input fields and form controls", async ({ page }) => {
-  // Define reusable locators for the page elements.
-  const usernameField = page.getByLabel("Username");
-  const passwordField = page.getByLabel("Password");
-  const userRadio = page.getByLabel("User", { exact: true });
-  const consultantDropdown = page.getByRole("combobox");
-  const termsCheckbox = page.locator("input#terms");
-  const signInButton = page.getByRole("button", { name: "Sign In" });
+test.slow(
+  "Login Form - Verify input fields and form controls",
+  async ({ page }) => {
+    // Define reusable locators for the page elements.
+    const usernameField = page.getByLabel("Username");
+    const passwordField = page.getByLabel("Password");
+    const userRadio = page.getByLabel("User", { exact: true });
+    const consultantDropdown = page.getByRole("combobox");
+    const termsCheckbox = page.locator("input#terms");
+    const signInButton = page.getByRole("button", { name: "Sign In" });
 
-  // Navigate to the login page.
-  await page.goto(BASE_URL);
+    // Navigate to the login page.
+    await page.goto(BASE_URL);
 
-  // Enter the username retrieved from the .env file.
-  await usernameField.fill(rs_username);
+    // Enter the username retrieved from the .env file.
+    await usernameField.fill(rs_username);
 
-  // Enter the password retrieved from the .env file.
-  await passwordField.fill(rs_password);
+    // Enter the password retrieved from the .env file.
+    await passwordField.fill(rs_password);
 
-  // Select the User radio button.
-  await userRadio.check();
+    // Select the User radio button.
+    await userRadio.check();
 
-  // Verify that the User radio button is selected.
-  await expect(userRadio).toBeChecked();
+    // Verify that the User radio button is selected.
+    await expect(userRadio).toBeChecked();
 
-  // Select the Consultant option from the dropdown by its visible label.
-  await consultantDropdown.selectOption({ label: "Consultant" });
+    // Select the Consultant option from the dropdown by its visible label.
+    await consultantDropdown.selectOption({ label: "Consultant" });
 
-  // Verify that the selected dropdown option has the expected value.
-  await expect(consultantDropdown).toHaveValue("consult");
+    // Verify that the selected dropdown option has the expected value.
+    await expect(consultantDropdown).toHaveValue("consult");
 
-  // Select the terms and conditions checkbox.
-  await termsCheckbox.check();
+    // Select the terms and conditions checkbox.
+    await termsCheckbox.check();
 
-  // Verify that the terms and conditions checkbox is selected.
-  await expect(termsCheckbox).toBeChecked();
+    // Verify that the terms and conditions checkbox is selected.
+    await expect(termsCheckbox).toBeChecked();
 
-  await page.pause();
+    await page.pause();
 
-  // Click the Sign In button to submit the login form.
-  await signInButton.click();
-});
+    // Click the Sign In button to submit the login form.
+    await signInButton.click();
+  },
+);
