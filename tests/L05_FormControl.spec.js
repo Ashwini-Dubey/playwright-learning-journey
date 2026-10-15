@@ -1,9 +1,3 @@
-/**
- * @priority P1
- * @owner Ashwini Dubey
- * @feature Form Elements
- */
-
 import { test, expect } from "@playwright/test";
 
 // Generate a unique email address using the current timestamp.
@@ -25,7 +19,7 @@ const BASE_URL = "https://playwrightlab.github.io/";
 test.describe("Form Elements", () => {
   // Run only this test while developing or debugging.
   // Remove .only when you want to execute the entire test suite.
-  test.only("Registration Form", async ({ page }) => {
+  test("Registration Form", async ({ page }) => {
     console.log("======Registration Form======");
 
     // Navigate to the website and wait for navigation to complete.
@@ -69,8 +63,6 @@ test.describe("Form Elements", () => {
     );
 
     await page.locator("#phone").fill("9876543210");
-
-    
   });
 
   // Test area for slider and range input controls.
