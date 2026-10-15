@@ -60,12 +60,13 @@ export default defineConfig({
     trace: "on-first-retry",
 
     // Run headless in CI and headed locally by default.
-    //headless: !!process.env.CI,
-    headless: true,
+    headless: !!process.env.CI,
+    //headless: true,
 
     // Capture debugging evidence on failure.
     screenshot: "only-on-failure",
     video: "retain-on-failure",
+    //video: "on",
   },
 
   // Browser projects.

@@ -83,75 +83,32 @@ test.describe("Form Elements", () => {
     ).toBeVisible();
   });
 
-  // Test area for slider and range input controls.
+  // Test the volume slider and range input controls.
   test("TC02 : Sliders& Range", async ({ page }) => {
-    // Navigate to the practice website before interacting with the controls.
+    // Navigate to the practice website.
     await page.goto(BASE_URL);
-  });
 
-  // Test area for autocomplete fields that display suggestions while typing.
-  test("Auto Suggest", async ({ page }) => {
-    // Navigate to the practice website before testing autocomplete behavior.
-    await page.goto(BASE_URL);
-  });
+    // Locate the volume slider using its ID.
+    const slider = page.locator("#volumeSlider");
 
-  // Test area for uploading files through a file input.
-  test("File Upload", async ({ page }) => {
-    // Navigate to the practice website before testing file upload functionality.
-    await page.goto(BASE_URL);
-  });
+    await slider.scrollIntoViewIfNeeded();
 
-  // Test area for selecting multiple options in a multi-select control.
-  test("Multi-Select", async ({ page }) => {
-    // Navigate to the practice website before interacting with the multi-select control.
-    await page.goto(BASE_URL);
-  });
+    // Set the slider value to 70 using the DOM element.
+    await slider.evaluate((element) => {
+      element.value = "70";
+    });
 
-  // Test area for interacting with custom dropdown components.
-  test("Custom Dropdown", async ({ page }) => {
-    // Navigate to the practice website before testing the custom dropdown.
-    await page.goto(BASE_URL);
-  });
+    // Verify that the slider's value is updated to 70.
+    await expect(slider).toHaveValue("70");
 
-  // Test area for dropdowns that allow searching for an option.
-  test("Searchable Dropdown", async ({ page }) => {
-    // Navigate to the practice website before testing searchable dropdown behavior.
-    await page.goto(BASE_URL);
-  });
+    const priceSlider = page.getByTestId("slider-price");
 
-  // Test area for dropdowns containing options organized into groups.
-  test("Grouped Options", async ({ page }) => {
-    // Navigate to the practice website before testing grouped dropdown options.
-    await page.goto(BASE_URL);
-  });
+    await priceSlider.scrollIntoViewIfNeeded();
 
-  // Test area for dependent dropdowns where one selection affects another.
-  test("Cascading Dropdowns", async ({ page }) => {
-    // Navigate to the practice website before testing dependent dropdown behavior.
-    await page.goto(BASE_URL);
-  });
+    await priceSlider.evaluate((element) => {
+      element.value = "750";
+    });
 
-  // Test area for selecting multiple checkboxes.
-  test("Multi-select Checkboxes", async ({ page }) => {
-    // Navigate to the practice website before selecting multiple checkboxes.
-    await page.goto(BASE_URL);
-  });
-
-  // Test area for verifying that certain dropdown options are disabled.
-  test("Disabled Options", async ({ page }) => {
-    // Navigate to the practice website before checking disabled options.
-    await page.goto(BASE_URL);
-  });
-
-  // Test area for dropdowns that become available or behave differently on focus.
-  test("Focus-Gated Dropdown", async ({ page }) => {
-    // Navigate to the practice website before testing focus-dependent behavior.
-    await page.goto(BASE_URL);
-  });
-
-  // Test area for dropdowns whose options appear after a delay.
-  test("Delayed Dropdown", async ({ page }) => {
-    // Navigate to the practice website before testing delayed dropdown behavior.
-    await page.goto(BASE_URL);
+    await expect(priceSlider).toHaveValue("750");
   });
 });
