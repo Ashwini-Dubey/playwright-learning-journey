@@ -119,6 +119,6 @@ test.describe.serial("Signup and Login Flow", () => {
     console.log("Extracted Product:", productName);
 
     // Verify that the extracted product name matches the expected value.
-    expect(productName?.trim()).toBe("ZARA COAT 3");
+    await expect(productName?.trim()).toBe("ZARA COAT 3");
   });
 });
