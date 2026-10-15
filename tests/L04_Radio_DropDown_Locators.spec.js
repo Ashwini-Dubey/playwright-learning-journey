@@ -50,8 +50,6 @@ test("Login Form - Verify input fields and form controls", async ({ page }) => {
   // Verify that the terms and conditions checkbox is selected.
   await expect(termsCheckbox).toBeChecked();
 
-  await page.pause();
-
   // Click the Sign In button to submit the login form.
   await signInButton.click();
 });
