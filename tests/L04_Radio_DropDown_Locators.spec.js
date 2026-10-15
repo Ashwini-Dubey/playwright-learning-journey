@@ -12,7 +12,7 @@ const rs_password = process.env.RS_PASSWORD;
 const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
 
 // Test: Verify radio buttons, dropdown selection, checkbox, and login.
-test.slow(
+test(
   "Login Form - Verify input fields and form controls",
   async ({ page }) => {
     // Define reusable locators for the page elements.
@@ -39,10 +39,10 @@ test.slow(
     await expect(userRadio).toBeChecked();
 
     // Select the Consultant option from the dropdown by its visible label.
-    await consultantDropdown.selectOption({ label: "Consultant" });
+    await consultantDropdown.selectOption({ label: "Student" });
 
     // Verify that the selected dropdown option has the expected value.
-    await expect(consultantDropdown).toHaveValue("consult");
+    await expect(consultantDropdown).toHaveValue("stud");
 
     // Select the terms and conditions checkbox.
     await termsCheckbox.check();
