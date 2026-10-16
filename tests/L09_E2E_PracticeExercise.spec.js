@@ -38,6 +38,7 @@ test.describe.serial("Signup and Login Flow", () => {
     await page
       .getByRole("textbox", { name: "email@example.com" })
       .fill(email_id);
+
     await page
       .getByRole("textbox", { name: "enter your number" })
       .fill("1244564686");
@@ -81,7 +82,8 @@ test.describe.serial("Signup and Login Flow", () => {
     await expect(page).toHaveURL(/.*dashboard/);
   });
 
-  // Test 3: Find a specific product, add it to the cart, and verify it.
+  // Test 3: Find a specific product, add it to the cart,
+  // verify the cart contents, and proceed to checkout.
   test("Addition of product into the cart", async ({ page }) => {
     // Define the name of the product to be added to the cart.
     const productName = "iphone 13 pro";
@@ -93,6 +95,7 @@ test.describe.serial("Signup and Login Flow", () => {
     await page
       .getByRole("textbox", { name: "email@example.com" })
       .fill(email_id);
+
     await page.getByPlaceholder("enter your passsword").fill(password);
 
     // Submit the login form.
@@ -155,24 +158,52 @@ test.describe.serial("Signup and Login Flow", () => {
     // Assert that the product in the cart matches the requested product.
     expect(productName_Cart).toBe(productName);
 
+    // Extract the subtotal amount from the first total row.
     const subTotal = await page
       .locator("li.totalRow:nth-child(1)")
       .textContent();
+
+    // Extract the total amount from the second total row.
     const total = await page.locator("li.totalRow:nth-child(2)").textContent();
 
-    console.log("Sub-Total: ", subTotal.replace("Subtotal", "").trim());
-    console.log("Total: ", total.replace("Total", "").trim());
+    // Remove the labels and surrounding whitespace before logging the amounts.
+    console.log("Sub-Total:", subTotal.replace("Subtotal", "").trim());
+    console.log("Total:", total.replace("Total", "").trim());
 
+    // Click the Checkout button to proceed to the order placement page.
     await page.getByText("Checkout").click();
 
+    // Verify that the URL contains the order path and query parameters.
     await expect(page).toHaveURL(/\/order\?/);
 
-    //await page.locator("//input[@placeholder='Select Country']").fill("Ind");
+    //Auto-suggestive DropDown Handling
+    await page.getByPlaceholder("Country").pressSequentially("Ind");
 
-    //await page.getByText("India", { exact: true }).click();
+    const countryOptions = page.locator(".ta-results");
 
-    //await page.locator(':text("PLACE ORDER")').click();
+    await countryOptions.waitFor();
 
-    //await page.pause();
+    const countryCount = await countryOptions.locator("button").count();
+
+    for (let i = 0; i < countryCount; i++) {
+      const country = await countryOptions
+        .locator("button")
+        .nth(i)
+        .textContent();
+
+      if (country === " India") {
+        await countryOptions.locator("button").nth(i).click();
+        console.log("Country Selected!");
+        break;
+      }
+    }
+
+    await page.locator(".actions a").click();
+
+    await expect(page).toHaveURL(/\/thanks\?/);
+
+    await page.locator("[routerlink*='myorders']").last().click();
+
+    await expect(page).toHaveURL(/\/myorders/);
   });
 });
