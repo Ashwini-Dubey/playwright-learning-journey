@@ -82,7 +82,7 @@ test.describe.serial("Signup and Login Flow", () => {
   });
 
   // Test 3: Find a product, add it to the cart, proceed to checkout,
-  // place the order, and verify navigation to My Orders.
+  // place the order, and verify the order in My Orders and its details.
   test("Addition of product into the cart", async ({ page }) => {
     // Define the target product name.
     const productName = "iphone 13 pro";
@@ -172,7 +172,7 @@ test.describe.serial("Signup and Login Flow", () => {
     // Verify navigation to the order details page.
     await expect(page).toHaveURL(/\/order\?/);
 
-    // Auto-suggest dropdown: type a partial country name to display suggestions.
+    // Type a partial country name to display autocomplete suggestions.
     await page.getByPlaceholder("Country").pressSequentially("Ind");
 
     // Locate the container holding the suggested country options.
@@ -206,18 +206,61 @@ test.describe.serial("Signup and Login Flow", () => {
     // Verify that the order confirmation page is displayed.
     await expect(page).toHaveURL(/\/thanks\?/);
 
-    //Extract the Order ID from the Order Confirmation Page.
+    // Extract the Order ID from the order confirmation page.
     const orderID = await page.locator("label").last().textContent();
 
+    // Remove pipe characters and surrounding whitespace before logging the order ID.
     console.log(
-      "Order Placed Successfully with Order ID:",
+      "Order Placed Successfully with Order ID: ",
       orderID.replace(/[|]/g, "").trim(),
     );
 
     // Navigate to My Orders using the last matching navigation element.
     await page.locator("[routerlink*='myorders']").last().click();
 
+    // Print the current URL for debugging and navigation verification.
+    console.log("Current URL:", await page.url());
+
     // Verify navigation to the My Orders page.
     await expect(page).toHaveURL(/\/myorders/);
+
+    // Wait for the orders table body to appear before accessing its rows.
+    await page.locator("tbody").waitFor();
+
+    // Locate all rows displayed in the orders table.
+    const rows = await page.locator("tbody tr");
+
+    // Iterate through the order rows to find the order placed in this test.
+    for (let i = 0; i < (await rows.count()); i++) {
+      // Extract the order ID from the current row's table header.
+      const orders_orderID = await rows.nth(i).locator("th").textContent();
+
+      // Check whether the placed order ID contains the ID displayed in this row.
+      if (orderID.includes(orders_orderID)) {
+        // Click the first button in the matching row to open order details.
+        await rows.nth(i).locator("button").first().click();
+
+        // Log that the matching order was found.
+        console.log("Order Found!!");
+
+        // Verify that the current URL contains the order ID from the table row.
+        expect(page.url()).toContain(orders_orderID);
+
+        // Log successful navigation to the order details page.
+        console.log("Order Details page opened.");
+
+        // Stop searching after the matching order is found.
+        break;
+      } else {
+        // Log when the current row does not contain the required order ID.
+        console.log("Order not found!");
+      }
+    }
+
+    // Extract the order ID displayed on the order details page.
+    const OrderIdDetails = await page.locator(".col-text").textContent();
+
+    // Verify that the original order ID contains the ID displayed in the details.
+    expect(orderID.includes(OrderIdDetails)).toBeTruthy();
   });
 });
