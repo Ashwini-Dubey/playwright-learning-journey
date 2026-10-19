@@ -73,6 +73,6 @@ Step 8 — Verify seat reduction
 
 import { test, expect } from "@playwright/test";
 
-test("", ({ page }) => {
+test("Full Booking Flow with Event Creation", ({ page }) => {
   page.goto("https://eventhub.rahulshettyacademy.com/");
 });
