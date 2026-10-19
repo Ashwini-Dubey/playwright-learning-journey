@@ -32,10 +32,6 @@ test("Playwright Timeout 1", async ({ page }) => {
     .filter({ hasText: "Nokia Edge" })
     .getByRole("button")
     .click();
-
-  // Pause test execution to allow interactive debugging with the Playwright Inspector.
-  // This is a debugging feature, not a timeout setting.
-  await page.pause();
 });
 
 test("Playwright Timeout 2", async ({ page }) => {
@@ -66,8 +62,4 @@ test("Playwright Timeout 2", async ({ page }) => {
     .filter({ hasText: "Nokia Edge" })
     .getByRole("button")
     .click();
-
-  // Pause test execution to allow interactive debugging with the Playwright Inspector.
-  // This is a debugging feature, not a timeout setting.
-  await page.pause();
 });

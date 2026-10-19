@@ -40,7 +40,4 @@ test("Playwright Special Locators", async ({ page }) => {
     .filter({ hasText: "Nokia Edge" })
     .getByRole("button")
     .click();
-
-  // Pause test execution to allow interactive inspection and debugging.
-  await page.pause();
 });
