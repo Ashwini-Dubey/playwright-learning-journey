@@ -50,6 +50,9 @@ export default defineConfig({
 
     // Retain videos when tests fail.
     video: "retain-on-failure",
+
+    actionTimeout: 10 * 1000,
+    navigationTimeout: 10 * 1000,
   },
 
   // Run all three browsers in CI/CD and Chromium only locally.
