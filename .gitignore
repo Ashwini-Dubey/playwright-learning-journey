@@ -43,6 +43,7 @@ playwright/.last-run.json
 reporting-labs/
 reporting-labs.history.json
 
-*.png
-*.jpg
-*.jpeg
+# Allow Playwright visual regression baseline screenshots
+!tests/L13_VisualTesting.spec.js-snapshots/
+!tests/L13_VisualTesting.spec.js-snapshots/*.png
+!tests/L13_VisualTesting.spec.js-snapshots/*.jpg
