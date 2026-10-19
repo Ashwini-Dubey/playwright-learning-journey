@@ -42,3 +42,6 @@ playwright/.last-run.json
 
 reporting-labs/
 reporting-labs.history.json
+
+*.png
+*.jpg
