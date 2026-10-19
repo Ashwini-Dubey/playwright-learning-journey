@@ -35,6 +35,12 @@ test("Playwright Special Locators", async ({ page }) => {
   // Locate the Shop link by its accessible role and name, then click it.
   await page.getByRole("link", { name: "Shop" }).click();
 
+  await page
+    .locator("app-card")
+    .filter({ hasText: "Nokia Edge" })
+    .getByRole("button")
+    .click();
+
   // Pause test execution to allow interactive inspection and debugging.
   await page.pause();
 });
