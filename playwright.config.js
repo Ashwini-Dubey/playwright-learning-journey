@@ -40,13 +40,13 @@ export default defineConfig({
   // Configure browser execution and debugging artifacts.
   use: {
     // Record a trace when a test is retried.
-    trace: "on-first-retry",
+    trace: "on",
 
     // Run headless in CI/CD and headed locally.
     headless: !!process.env.CI,
 
     // Capture screenshots only when tests fail.
-    screenshot: "only-on-failure",
+    screenshot: "on",
 
     // Retain videos when tests fail.
     video: "retain-on-failure",
