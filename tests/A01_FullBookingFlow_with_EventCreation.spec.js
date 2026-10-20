@@ -5,21 +5,6 @@ Instructions:
 Create a brand new event from the admin panel, then complete a booking for that event, and 
 finally verify the seat count drops by exactly 1.
 
-Setup:
-- BASE_URL = https://eventhub.rahulshettyacademy.com
-- Credentials: < Create your own credentials>
-- Write a reusable login(page) helper function — you will call it at the start of the test
-
-
-    
-Step 3 — Find the event card and capture seats
-- Navigate to /events
-- Get all event cards (locate by data-testid="event-card")
-- Assert the first card is visible (confirms page loaded)
-- From all cards, filter for the one that contains your event title text
-- Assert the matched card is visible (timeout 5 seconds)
-- Read the seat count text from that card (locate element containing text seat, parse integer from its inner text) — store this as seatsBeforeBooking
-
 Step 4 — Start booking
 - On the matched event card, click the Book Now button (locate by data-testid="book-now-btn" inside the card)
 
@@ -189,7 +174,7 @@ test.describe.serial("Full Booking Flow with Event Creation", () => {
         .nth(i)
         .locator("h3")
         .textContent();
-      console.log(`Event Detail ${i + 1}:${eventCardDetail} `);
+      console.log(`Event Detail ${i + 1}: ${eventCardDetail} `);
 
       if (eventCardDetail.includes(eventName)) {
         await expect(eventCards.nth(i)).toBeVisible({ timeout: 5_000 });
@@ -204,6 +189,14 @@ test.describe.serial("Full Booking Flow with Event Creation", () => {
           seatAvailability.replace(" seats available", "").trim(),
         );
         console.log(seatsBeforeBooking);
+
+        // Step 4: Start booking
+        await eventCards.nth(i).getByTestId("book-now-btn").click();
+
+        await expect(page.getByText("Book Tickets")).toBeVisible();
+
+        // Step 5: Fill booking form
+
         break;
       }
     }
