@@ -1,3 +1,5 @@
+import { test, expect } from "@playwright/test";
+
 /*
 Instructions: 
 Create a brand new event from the admin panel, then complete a booking for that event, and 
@@ -29,7 +31,7 @@ Step 2 — Create a new event
 - Fill Total Seats field (locate by label Total Seats) — use 50
 - Click the submit button (locate by id #add-event-btn)
 - Assert: toast message Event created! is visible
-
+    
 Step 3 — Find the event card and capture seats
 - Navigate to /events
 - Get all event cards (locate by data-testid="event-card")
@@ -71,8 +73,105 @@ Step 8 — Verify seat reduction
 - Assert: seatsAfterBooking === seatsBeforeBooking - 1
 */
 
-import { test, expect } from "@playwright/test";
+// Define the base URL of the EventHub application.
+const BASE_URL = "https://eventhub.rahulshettyacademy.com/";
 
-test("Full Booking Flow with Event Creation", async ({ page }) => {
-  await page.goto("https://eventhub.rahulshettyacademy.com/");
+// Generate a unique email address once so the same account can be used
+// throughout the signup, login, and booking flow.
+const email_id = emailGenerator();
+
+// Define the password used for the test account.
+const password = "Password@123"; // Test credentials
+
+// Generate a unique email address using the current timestamp.
+// This helps prevent conflicts with email addresses from previous test runs.
+function emailGenerator() {
+  return `testuser${Date.now()}@test.com`;
+}
+
+function eventNameGenerator() {
+  return `Test Event ${Date.now()}`;
+}
+
+const eventName = eventNameGenerator();
+
+// Reusable helper function to register a new user.
+// Accepts the Playwright page object so the same steps can be reused in tests.
+async function signup(page) {
+  // Open the registration page.
+  await page.goto(`${BASE_URL}register`);
+
+  // Enter the email address generated for this test run.
+  await page.getByPlaceholder("you@email.com").fill(email_id);
+
+  // Enter the password in the registration password field.
+  await page.locator("#register-password").fill(password);
+
+  // Confirm the password by entering it again.
+  await page.getByPlaceholder("Repeat your password").fill("Password@123");
+
+  // Click the registration button to submit the signup form.
+  await page.getByTestId("register-btn").click();
+}
+
+// Reusable helper function to log in with the registered test account.
+// Accepts the Playwright page object to perform browser interactions.
+async function login(page) {
+  // Open the application's login page.
+  await page.goto(BASE_URL);
+
+  // Enter the registered email address.
+  await page.getByPlaceholder("you@email.com").fill(email_id);
+
+  // Locate the password field using its accessible label and enter the password.
+  await page.getByLabel("Password").fill(password);
+
+  // Locate the login button by its ID and click it.
+  await page.locator("#login-btn").click();
+}
+
+// Group related tests into a serial suite.
+// Serial execution ensures the signup test runs before the login test.
+test.describe.serial("Full Booking Flow with Event Creation", async () => {
+  // TC 01: Sign up for a new EventHub account.
+
+  test("Sign Up", async ({ page }) => {
+    // Call the reusable signup helper to register the test account.
+    await signup(page);
+
+    // Wait for the page to reach the network-idle state.
+    await page.waitForLoadState("networkidle");
+
+    // Check that the current URL contains the application's base URL.
+    await expect(page.url()).toContain(
+      "https://eventhub.rahulshettyacademy.com/",
+    );
+  });
+
+  // TC 02: Log in using the account created in the signup test.
+
+  test("Login", async ({ page }) => {
+    // Step 1: Log in using the reusable login helper.
+    await login(page);
+
+    // Wait for the page to reach the network-idle state.
+    await page.waitForLoadState("networkidle");
+
+    // Check that the current URL contains the application's base URL.
+    await expect(page.url()).toContain(
+      "https://eventhub.rahulshettyacademy.com/",
+    );
+
+    // Verify that the Browse Events link is visible after login.
+    // This provides an additional check that the login flow succeeded.
+    await expect(page.getByText("Browse Events →")).toBeVisible();
+
+    await page.goto(`${BASE_URL}admin/events`);
+
+    await page.locator("#event-title-input").fill(eventName);
+
+    await page.locator("#admin-event-form textarea").fill(eventName);
+
+    await page.pause();
+  });
 });
