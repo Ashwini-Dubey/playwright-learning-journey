@@ -172,6 +172,10 @@ test.describe.serial("Full Booking Flow with Event Creation", async () => {
 
     await page.locator("#admin-event-form textarea").fill(eventName);
 
+    await page.locator("#category").selectOption("Workshop");
+
+    await page.getByLabel("City").fill("Chandigarh");
+
     await page.pause();
   });
 });
