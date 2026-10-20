@@ -174,7 +174,7 @@ test.describe.serial("Full Booking Flow with Event Creation", () => {
         .nth(i)
         .locator("h3")
         .textContent();
-      console.log(`Event Detail ${i + 1}: ${eventCardDetail} `);
+      //console.log(`Event Detail ${i + 1}: ${eventCardDetail} `);
 
       if (eventCardDetail.includes(eventName)) {
         await expect(eventCards.nth(i)).toBeVisible({ timeout: 5_000 });
@@ -196,6 +196,12 @@ test.describe.serial("Full Booking Flow with Event Creation", () => {
         await expect(page.getByText("Book Tickets")).toBeVisible();
 
         // Step 5: Fill booking form
+
+        await expect(page.locator("#ticket-count")).toHaveText("1");
+        await page.getByLabel("Full Name").fill("Test User");
+        await page.locator("#customer-email").fill(email_id);
+        await page.getByPlaceholder("+91 98765 43210").fill("+91 98765 87210");
+        await page.locator(".confirm-booking-btn").click();
 
         break;
       }
