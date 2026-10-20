@@ -11,26 +11,6 @@ Setup:
 - Write a reusable login(page) helper function — you will call it at the start of the test
 
 
-Steps:
-Step 1 — Login
-- Navigate to /login
-- Fill email field (locate by placeholder you@email.com)
-- Fill password field (locate by label Password)
-- Click the login button (locate by id #login-btn)
-- Assert: link with text Browse Events → is visible (confirms login success)
-
-Step 2 — Create a new event
-- Navigate to /admin/events
-- Generate a unique event title using Test Event ${Date.now()} — store this in a variable, you will need it throughout the test
-- Fill Title field (locate by id #event-title-input)
-- Fill Description textarea (locate using #admin-event-form textarea)
-- Fill City field (locate by label City)
-- Fill Venue field (locate by label Venue)
-- Fill Event Date & Time field (locate by label Event Date & Time) — use your futureDateValue() helper
-- Fill Price ($) field (locate by label Price ($)) — use any number e.g. 100
-- Fill Total Seats field (locate by label Total Seats) — use 50
-- Click the submit button (locate by id #add-event-btn)
-- Assert: toast message Event created! is visible
     
 Step 3 — Find the event card and capture seats
 - Navigate to /events
@@ -79,6 +59,7 @@ const BASE_URL = "https://eventhub.rahulshettyacademy.com/";
 // Generate a unique email address once so the same account can be used
 // throughout the signup, login, and booking flow.
 const email_id = emailGenerator();
+console.log(email_id);
 
 // Define the password used for the test account.
 const password = "Password@123"; // Test credentials
@@ -132,7 +113,7 @@ async function login(page) {
 
 // Group related tests into a serial suite.
 // Serial execution ensures the signup test runs before the login test.
-test.describe.serial("Full Booking Flow with Event Creation", async () => {
+test.describe.serial("Full Booking Flow with Event Creation", () => {
   // TC 01: Sign up for a new EventHub account.
 
   test("Sign Up", async ({ page }) => {
@@ -166,6 +147,7 @@ test.describe.serial("Full Booking Flow with Event Creation", async () => {
     // This provides an additional check that the login flow succeeded.
     await expect(page.getByText("Browse Events →")).toBeVisible();
 
+    // Step 2: Create a new event
     await page.goto(`${BASE_URL}admin/events`);
 
     await page.locator("#event-title-input").fill(eventName);
@@ -176,6 +158,54 @@ test.describe.serial("Full Booking Flow with Event Creation", async () => {
 
     await page.getByLabel("City").fill("Chandigarh");
 
-    await page.pause();
+    await page.getByLabel("Venue").fill("DLF Phase 2");
+
+    await page
+      .getByRole("textbox", { name: "Event Date & Time*" })
+      .fill("2027-12-01T11:00");
+
+    await page.getByLabel("Price ($)").fill("250");
+
+    await page.getByLabel("Total Seats").fill("50");
+
+    await page.locator("#add-event-btn").click();
+
+    await expect(page.getByText("Event created!")).toBeVisible();
+
+    // Step 3: Find the event card and capture seats
+    await page.goto(`${BASE_URL}events`);
+
+    await expect(page.getByTestId("event-card").first()).toBeVisible();
+
+    const eventCards = await page.getByTestId("event-card");
+
+    const eventCardsCount = await eventCards.count();
+    console.log("Event Cards Count: ", eventCardsCount);
+
+    let seatsBeforeBooking = 0;
+
+    for (let i = 0; i < eventCardsCount; i++) {
+      const eventCardDetail = await eventCards
+        .nth(i)
+        .locator("h3")
+        .textContent();
+      console.log(`Event Detail ${i + 1}:${eventCardDetail} `);
+
+      if (eventCardDetail.includes(eventName)) {
+        await expect(eventCards.nth(i)).toBeVisible({ timeout: 5_000 });
+        await expect(eventCards.nth(i).locator("h3")).toBeVisible();
+
+        const seatAvailability = await eventCards
+          .nth(i)
+          .locator("span")
+          .last()
+          .textContent();
+        seatsBeforeBooking = parseInt(
+          seatAvailability.replace(" seats available", "").trim(),
+        );
+        console.log(seatsBeforeBooking);
+        break;
+      }
+    }
   });
 });
