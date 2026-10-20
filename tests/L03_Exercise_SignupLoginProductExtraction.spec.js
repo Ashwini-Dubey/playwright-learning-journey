@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-// Generate a unique email address once and reuse it across both tests.
+// Generate a unique email address once and reuse it across all three tests.
 function emailGenerator() {
   return `testuser${Date.now()}@test.com`;
 }
@@ -9,18 +9,18 @@ const email_id = emailGenerator();
 const password = "Password123";
 const BASE_URL = "https://rahulshettyacademy.com/client/auth/login";
 
-// Log the generated email for debugging purposes.
+// Log the generated email address for debugging purposes.
 console.log("Generated Email:", email_id);
 
 // Run these tests sequentially.
-// If signup fails, Playwright skips the login test.
+// If a test fails, Playwright skips the remaining tests in this serial group.
 test.describe.serial("Signup and Login Flow", () => {
   // Test 1: Verify that a new user can register successfully.
   test("Sign Up - Register a new user successfully", async ({ page }) => {
     // Navigate to the login page.
     await page.goto(BASE_URL);
 
-    // Navigate to the registration page.
+    // Click the registration link to open the signup page.
     await page.locator("p.login-wrapper-footer-text").click();
 
     // Verify that the registration page is displayed.
@@ -53,7 +53,21 @@ test.describe.serial("Signup and Login Flow", () => {
     // Confirm the password.
     await page.locator("input#confirmPassword").fill(password);
 
-    // Accept the age confirmation checkbox.
+    // Check the age confirmation checkbox to accept the required declaration.
+    await page.getByRole("checkbox").check();
+
+    // Pause test execution to inspect the checked checkbox in the browser.
+    await page.pause();
+
+    // Uncheck the checkbox to demonstrate locator.uncheck().
+    // This changes the checkbox state from checked to unchecked.
+    await page.getByRole("checkbox").uncheck();
+
+    // Pause test execution to inspect the unchecked checkbox in the browser.
+    await page.pause();
+
+    // Check the checkbox again so the required declaration is accepted
+    // before submitting the registration form.
     await page.getByRole("checkbox").check();
 
     // Submit the registration form.
@@ -65,7 +79,7 @@ test.describe.serial("Signup and Login Flow", () => {
     ).toBeVisible();
   });
 
-  // Test 2: Run only after the signup test passes.
+  // Test 2: Log in using the credentials created during signup.
   test("Login - Log in with valid credentials", async ({ page }) => {
     // Navigate to the login page.
     await page.goto(BASE_URL);
@@ -106,7 +120,7 @@ test.describe.serial("Signup and Login Flow", () => {
     // Verify that login succeeds by checking the dashboard URL.
     await expect(page).toHaveURL(/.*dashboard/);
 
-    // Locate the product by its exact visible text.
+    // Locate the product using its exact visible text.
     const product = page.getByText("ZARA COAT 3", { exact: true });
 
     // Verify that the product is visible on the page.
