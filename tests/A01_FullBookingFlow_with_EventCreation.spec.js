@@ -202,8 +202,35 @@ test.describe.serial("Full Booking Flow with Event Creation", () => {
         await page.locator("#customer-email").fill(email_id);
         await page.getByPlaceholder("+91 98765 43210").fill("+91 98765 87210");
         await page.locator(".confirm-booking-btn").click();
+        await expect(page.getByText("Booking Confirmed! 🎉")).toBeVisible();
+
+        //Step 6: Verify Booking Confirmation
+
+        await expect(page.locator(".booking-ref").first()).toBeVisible();
+
+        let bookingRef = await page
+          .locator(".booking-ref")
+          .first()
+          .textContent();
+
+        bookingRef = bookingRef.trim();
+        console.log(`Booking Reference: ${bookingRef}`);
 
         break;
+
+        // Step 7: Verify in My Bookings
+
+        await page.getByText("View My Bookings").click();
+        await expect(page.url()).toBe(`${BASE_URL}bookings`);
+
+        const bookingCards = await page.locator("#booking-card");
+        await expect(bookingCards.first()).toBeVisible();
+        const bookingCardsCount = await bookingCards.count();
+        console.log("Booking Cards Count: ", bookingCardsCount);
+
+        for (let j = 0; j < bookingCardsCount; j++) {
+          //TODO
+        }
       }
     }
   });
