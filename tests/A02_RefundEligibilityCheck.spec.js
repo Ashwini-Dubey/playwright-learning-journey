@@ -57,3 +57,138 @@ Step 6 — Validate result (different assertions)
 - Assert result contains Not eligible for refund
 - Assert result contains Group bookings (3 tickets) are non-refundable
 */
+
+import { test, expect } from "@playwright/test";
+
+// Application configuration: base URL used for all application navigation.
+const BASE_URL = "https://eventhub.rahulshettyacademy.com/";
+
+// Credentials used to register and authenticate the test user.
+const email_id = "testuser1792518647928@test.com";
+const password = "Password@123";
+
+// Authenticate the registered test user before accessing event-management
+// and booking functionality.
+async function loginAndGoToBooking(page) {
+  // Navigate to the application login page.
+  await page.goto(BASE_URL);
+
+  // Enter the registered account credentials.
+  await page.getByPlaceholder("you@email.com").fill(email_id);
+  await page.getByLabel("Password").fill(password);
+
+  // Submit the login form.
+  await page.locator("#login-btn").click();
+
+  await expect(page.getByText("Browse Events →")).toBeVisible();
+}
+
+test("TC01: Single ticket booking is eligible for refund", async ({ page }) => {
+  // Step 1:
+  await loginAndGoToBooking(page);
+
+  // Step 2: Book first event with 1 ticket (default)
+  await page.goto(`${BASE_URL}events`);
+
+  await page
+    .getByTestId("event-card")
+    .first()
+    .getByTestId("book-now-btn")
+    .click();
+
+  await page.getByLabel("Full Name").fill("Test User");
+  await page.locator("#customer-email").fill(email_id);
+  await page.getByPlaceholder("+91 98765 43210").fill("+91 98765 87210");
+  await page.locator(".confirm-booking-btn").click();
+
+  //Step 3: Navigate to booking detail
+  await page.getByText("View My Bookings").click();
+  await expect(page).toHaveURL(`${BASE_URL}bookings`);
+  await page
+    .locator("#booking-card")
+    .first()
+    .getByRole("button", { name: "View Details" })
+    .click();
+  await expect(page.getByText("Booking Information")).toBeVisible();
+
+  //Step 4: Validate booking ref
+  const bookingRef = await page
+    .locator("div div div div span")
+    .nth(1)
+    .textContent();
+
+  const eventTitle = await page.locator("h1").textContent();
+
+  expect(bookingRef[0]).toStrictEqual(eventTitle[0]);
+
+  // Step 5: Check refund eligibility
+  await page.locator("#check-refund-btn").click();
+  await expect(page.locator("#refund-spinner")).toBeVisible();
+  await expect(page.locator("#refund-spinner")).toBeHidden({ timeout: 6000 });
+
+  // Step 6: Validate Result
+  await expect(page.locator("#refund-result")).toBeVisible();
+  await expect(page.locator("#refund-result")).toContainText(
+    "Eligible for refund",
+  );
+  await expect(page.locator("#refund-result")).toContainText(
+    "Single-ticket bookings qualify for a full refund",
+  );
+});
+
+test("TC02: Group ticket booking is NOT eligible for refund", async ({
+  page,
+}) => {
+  // Step 1:
+  await loginAndGoToBooking(page);
+
+  // Step 2: Book first event with 1 ticket (default)
+  await page.goto(`${BASE_URL}events`);
+
+  await page
+    .getByTestId("event-card")
+    .first()
+    .getByTestId("book-now-btn")
+    .click();
+
+  await page.locator('button:has-text("+")').click();
+  await page.locator('button:has-text("+")').click();
+  await page.getByLabel("Full Name").fill("Test User");
+  await page.locator("#customer-email").fill(email_id);
+  await page.getByPlaceholder("+91 98765 43210").fill("+91 98765 87210");
+  await page.locator(".confirm-booking-btn").click();
+
+  //Step 3: Navigate to booking detail
+  await page.getByText("View My Bookings").click();
+  await expect(page).toHaveURL(`${BASE_URL}bookings`);
+  await page
+    .locator("#booking-card")
+    .first()
+    .getByRole("button", { name: "View Details" })
+    .click();
+  await expect(page.getByText("Booking Information")).toBeVisible();
+
+  //Step 4: Validate booking ref
+  const bookingRef = await page
+    .locator("div div div div span")
+    .nth(1)
+    .textContent();
+
+  const eventTitle = await page.locator("h1").textContent();
+
+  expect(bookingRef[0]).toStrictEqual(eventTitle[0]);
+
+  // Step 5: Check refund eligibility
+  await page.locator("#check-refund-btn").click();
+  await expect(page.locator("#refund-spinner")).toBeVisible();
+  await expect(page.locator("#refund-spinner")).toBeHidden({ timeout: 6000 });
+
+  // Step 6: Validate Result
+  await expect(page.locator("#refund-result")).toBeVisible();
+  await expect(page.locator("#refund-result")).toContainText(
+    "Not eligible for refund",
+  );
+  await expect(page.locator("#refund-result")).toContainText(
+    "Group bookings (3 tickets) are non-refundable",
+  );
+});
