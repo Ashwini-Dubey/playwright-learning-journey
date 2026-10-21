@@ -1,0 +1,13 @@
+import { test, expect } from "@playwright/test";
+
+test("Handle iFrames & perform actions on iFrame", async ({ page }) => {
+  await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+
+  const framePage = await page.frameLocator("#courses-iframe");
+
+  await framePage.locator("a[href*='lifetime-access']:visible").click();
+
+  const textCheck = await framePage.locator(".text h2").textContent();
+
+  console.log(textCheck.split(" ")[1]);
+});
