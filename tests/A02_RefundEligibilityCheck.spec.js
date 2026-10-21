@@ -1,61 +1,43 @@
 /*
-Instructions:
-Two separate tests — one booking with 1 ticket should show "Eligible for refund", a booking with 3 tickets should show 
-"Not eligible for refund". Both tests verify the spinner appears and disappears before showing the result.
+Assignment 02: Refund Eligibility Validation
+
+Objective:
+Validate refund eligibility for single-ticket and group-ticket bookings
+through two separate end-to-end Playwright tests.
+
+Test Scenarios:
+1. Single-ticket booking:
+   - Create a booking with the default quantity of one ticket.
+   - Navigate to the booking details page and validate the booking reference
+     against the event title.
+   - Check refund eligibility and verify that the refund spinner appears
+     and disappears before the result is displayed.
+   - Assert that the booking is eligible for a full refund and that the
+     expected eligibility message is displayed.
+
+2. Group-ticket booking:
+   - Create a booking with three tickets by incrementing the ticket quantity
+     twice before confirming the booking.
+   - Navigate to the booking details page and validate the booking reference
+     against the event title.
+   - Check refund eligibility and verify that the refund spinner appears
+     and disappears before the result is displayed.
+   - Assert that the booking is not eligible for a refund and that the
+     expected group-booking message is displayed.
 
 Setup:
+- BASE_URL: Base URL of the EventHub application.
+- Credentials: Registered test-user credentials.
+- loginAndGoToBooking(page): Reusable helper that authenticates the user
+  and verifies that the Browse Events link is visible.
 
-- BASE_URL = https://eventhub.rahulshettyacademy.com
-- Credentials: Use your own credentials
-- Write a reusable loginAndGoToBooking(page) helper that logs in and confirms the Browse Events → link is visible
-
----
-
-Test 1 — Single ticket booking is eligible for refund
-
-Step 1 — Login
-- Call your login helper
-
-Step 2 — Book first event with 1 ticket (default)
-- Navigate to /events
-- Click Book Now on the very first event card (locate data-testid="event-card" → first → data-testid="book-now-btn")
-- Fill Full Name, Email (your email), Phone
-- Click confirm button (.confirm-booking-btn)
-
-Step 3 — Navigate to booking detail
-- Click View My Bookings link
-- Assert URL is /bookings
-- Click the first View Details link
-- Assert: text Booking Information is visible on the page
-
-Step 4 — Validate booking ref
-- Read booking ref from page
-- Read event title from h1
-- Assert validation : "first character of booking ref equals first character of event title"
-
-Step 5 — Check refund eligibility
-- Click the Check Refund Eligibility button
-- Assert: spinner element (#refund-spinner) is immediately visible
-- Assert: spinner is no longer visible within 6 seconds
-
-Step 6 — Validate result
-- Locate result element by id #refund-result
-- Assert it is visible
-- Assert it contains text Eligible for refund
-- Assert it contains text Single-ticket bookings qualify for a full refund
-
----
-
-Test 2 — Group ticket booking is NOT eligible for refund
-
-Steps 1–2 — Same as Test 1, except after navigating to the event detail page, click the + button twice to increase quantity to 3 before filling the form
-- Locate the increment button with button:has-text("+") and click it twice
-
-Steps 3–5 — Identical to Test 1
-
-Step 6 — Validate result (different assertions)
-- Assert result contains Not eligible for refund
-- Assert result contains Group bookings (3 tickets) are non-refundable
+Validation Coverage:
+- Successful login.
+- Booking creation with the required ticket quantity.
+- Navigation to booking history and booking details.
+- Booking reference and event title first-character validation.
+- Refund spinner visibility and disappearance within six seconds.
+- Refund eligibility result visibility and expected result messages.
 */
 
 import { test, expect } from "@playwright/test";
@@ -80,14 +62,15 @@ async function loginAndGoToBooking(page) {
   // Submit the login form.
   await page.locator("#login-btn").click();
 
+  // Verify that login succeeds and the Browse Events link is visible.
   await expect(page.getByText("Browse Events →")).toBeVisible();
 }
 
 test("TC01: Single ticket booking is eligible for refund", async ({ page }) => {
-  // Step 1:
+  // Step 1: Log in and verify access to the application.
   await loginAndGoToBooking(page);
 
-  // Step 2: Book first event with 1 ticket (default)
+  // Step 2: Book the first event with the default quantity of one ticket.
   await page.goto(`${BASE_URL}events`);
 
   await page
@@ -96,22 +79,26 @@ test("TC01: Single ticket booking is eligible for refund", async ({ page }) => {
     .getByTestId("book-now-btn")
     .click();
 
+  // Fill in the booking form and confirm the booking.
   await page.getByLabel("Full Name").fill("Test User");
   await page.locator("#customer-email").fill(email_id);
   await page.getByPlaceholder("+91 98765 43210").fill("+91 98765 87210");
   await page.locator(".confirm-booking-btn").click();
 
-  //Step 3: Navigate to booking detail
+  // Step 3: Navigate to booking history and open the first booking's details.
   await page.getByText("View My Bookings").click();
   await expect(page).toHaveURL(`${BASE_URL}bookings`);
+
   await page
     .locator("#booking-card")
     .first()
     .getByRole("button", { name: "View Details" })
     .click();
+
+  // Verify that the booking details page is displayed.
   await expect(page.getByText("Booking Information")).toBeVisible();
 
-  //Step 4: Validate booking ref
+  // Step 4: Read the booking reference and event title.
   const bookingRef = await page
     .locator("div div div div span")
     .nth(1)
@@ -119,18 +106,26 @@ test("TC01: Single ticket booking is eligible for refund", async ({ page }) => {
 
   const eventTitle = await page.locator("h1").textContent();
 
+  // Verify that the first character of the booking reference matches
+  // the first character of the event title.
   expect(bookingRef[0]).toStrictEqual(eventTitle[0]);
 
-  // Step 5: Check refund eligibility
+  // Step 5: Check refund eligibility and validate the spinner lifecycle.
   await page.locator("#check-refund-btn").click();
+
+  // Verify that the refund spinner appears.
   await expect(page.locator("#refund-spinner")).toBeVisible();
+
+  // Verify that the refund spinner disappears within six seconds.
   await expect(page.locator("#refund-spinner")).toBeHidden({ timeout: 6000 });
 
-  // Step 6: Validate Result
+  // Step 6: Verify the refund eligibility result and its expected messages.
   await expect(page.locator("#refund-result")).toBeVisible();
+
   await expect(page.locator("#refund-result")).toContainText(
     "Eligible for refund",
   );
+
   await expect(page.locator("#refund-result")).toContainText(
     "Single-ticket bookings qualify for a full refund",
   );
@@ -139,10 +134,10 @@ test("TC01: Single ticket booking is eligible for refund", async ({ page }) => {
 test("TC02: Group ticket booking is NOT eligible for refund", async ({
   page,
 }) => {
-  // Step 1:
+  // Step 1: Log in and verify access to the application.
   await loginAndGoToBooking(page);
 
-  // Step 2: Book first event with 1 ticket (default)
+  // Step 2: Open the first event and increase the ticket quantity to three.
   await page.goto(`${BASE_URL}events`);
 
   await page
@@ -151,24 +146,30 @@ test("TC02: Group ticket booking is NOT eligible for refund", async ({
     .getByTestId("book-now-btn")
     .click();
 
+  // Click the increment button twice to select three tickets.
   await page.locator('button:has-text("+")').click();
   await page.locator('button:has-text("+")').click();
+
+  // Fill in the booking form and confirm the group booking.
   await page.getByLabel("Full Name").fill("Test User");
   await page.locator("#customer-email").fill(email_id);
   await page.getByPlaceholder("+91 98765 43210").fill("+91 98765 87210");
   await page.locator(".confirm-booking-btn").click();
 
-  //Step 3: Navigate to booking detail
+  // Step 3: Navigate to booking history and open the first booking's details.
   await page.getByText("View My Bookings").click();
   await expect(page).toHaveURL(`${BASE_URL}bookings`);
+
   await page
     .locator("#booking-card")
     .first()
     .getByRole("button", { name: "View Details" })
     .click();
+
+  // Verify that the booking details page is displayed.
   await expect(page.getByText("Booking Information")).toBeVisible();
 
-  //Step 4: Validate booking ref
+  // Step 4: Read the booking reference and event title.
   const bookingRef = await page
     .locator("div div div div span")
     .nth(1)
@@ -176,18 +177,26 @@ test("TC02: Group ticket booking is NOT eligible for refund", async ({
 
   const eventTitle = await page.locator("h1").textContent();
 
+  // Verify that the first character of the booking reference matches
+  // the first character of the event title.
   expect(bookingRef[0]).toStrictEqual(eventTitle[0]);
 
-  // Step 5: Check refund eligibility
+  // Step 5: Check refund eligibility and validate the spinner lifecycle.
   await page.locator("#check-refund-btn").click();
+
+  // Verify that the refund spinner appears.
   await expect(page.locator("#refund-spinner")).toBeVisible();
+
+  // Verify that the refund spinner disappears within six seconds.
   await expect(page.locator("#refund-spinner")).toBeHidden({ timeout: 6000 });
 
-  // Step 6: Validate Result
+  // Step 6: Verify that the group booking is not eligible for a refund.
   await expect(page.locator("#refund-result")).toBeVisible();
+
   await expect(page.locator("#refund-result")).toContainText(
     "Not eligible for refund",
   );
+
   await expect(page.locator("#refund-result")).toContainText(
     "Group bookings (3 tickets) are non-refundable",
   );

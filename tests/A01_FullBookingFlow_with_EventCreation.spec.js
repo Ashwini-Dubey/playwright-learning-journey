@@ -118,6 +118,7 @@ test.describe.serial("Full Booking Flow with Event Creation", () => {
     // Verify that the application URL is correct and the Browse Events
     // link is visible, indicating that the user can access the event flow.
     await expect(page.url()).toContain(BASE_URL);
+    await page.waitForLoadState("networkidle");
     await expect(page.getByText("Browse Events →")).toBeVisible();
 
     // Step 2: Create a new event through the admin panel.
