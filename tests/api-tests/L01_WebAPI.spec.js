@@ -32,7 +32,13 @@ const loginPayload = {
   userPassword: "Password@123",
 };
 
+const createOrderPayload = {
+  country: "India",
+  productOrderedId: "6960ea76c941646b7a8b3dd5",
+};
+
 let token;
+let orderId;
 
 // Authenticate through the API before running the UI test and retain the
 // returned token for injection into the browser's local storage.
@@ -40,6 +46,7 @@ test.beforeAll(async () => {
   // Create an isolated API request context.
   const apiContext = await request.newContext();
 
+  // Login API
   // Submit the login payload to the authentication endpoint.
   const loginResponse = await apiContext.post(
     "https://rahulshettyacademy.com/api/ecom/auth/login",
@@ -56,6 +63,24 @@ test.beforeAll(async () => {
   console.log(loginResponseJson);
   token = loginResponseJson.token;
   console.log(token);
+
+  // Order API
+  const createOrderResponse = await apiContext.post(
+    "https://rahulshettyacademy.com/api/ecom/order/create-order",
+    {
+      data: createOrderPayload,
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  expect(createOrderResponse.ok()).toBeTruthy();
+  const createOrderResponseJson = await createOrderResponse.json();
+  console.log(createOrderResponseJson);
+  orderId = createOrderResponseJson.orders[0];
+  console.log(orderId);
 });
 
 // Execute the end-to-end purchase workflow using the authenticated browser session.
@@ -101,7 +126,9 @@ test("Client App Login", async ({ page }) => {
   }
 
   // Optional assertion to verify that the cart badge displays one item.
-  await expect(page.locator("[routerlink*='cart']").locator("label")).toHaveText("1");
+  await expect(
+    page.locator("[routerlink*='cart']").locator("label"),
+  ).toHaveText("1");
 
   // Open the shopping cart to verify the selected product.
   await page.locator("[routerlink*='cart']").click();
