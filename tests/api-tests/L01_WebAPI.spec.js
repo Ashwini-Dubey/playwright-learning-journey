@@ -55,6 +55,7 @@ test.beforeAll(async () => {
     },
   );
 
+  console.log(loginResponse);
   // Verify that the API request completed successfully.
   expect(loginResponse.ok()).toBeTruthy();
 
