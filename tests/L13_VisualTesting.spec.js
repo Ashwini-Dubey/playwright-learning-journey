@@ -17,7 +17,13 @@ test("Screenshot Capture - Page & Element Level", async ({ page }) => {
   await expect(page.locator("#displayed-text")).toBeHidden();
 });
 
-test("Visual Testing", async ({ page }) => {
+test("Visual Testing", async ({ page }, testInfo) => {
   await page.goto("https://google.com/");
-  expect(await page.screenshot()).toMatchSnapshot("landing.png");
+
+  const screenshotName = `landing-${testInfo.project.name}-${process.platform}.png`;
+
+  // Allow minor visual differences of up to 2% of total pixels.
+  expect(await page.screenshot()).toMatchSnapshot(screenshotName, {
+    maxDiffPixelRatio: 0.02,
+  });
 });

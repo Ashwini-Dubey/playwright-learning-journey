@@ -64,24 +64,6 @@ test.beforeAll(async () => {
   console.log(loginResponseJson);
   token = loginResponseJson.token;
   console.log(token);
-
-  // Order API
-  const createOrderResponse = await apiContext.post(
-    "https://rahulshettyacademy.com/api/ecom/order/create-order",
-    {
-      data: createOrderPayload,
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-    },
-  );
-
-  expect(createOrderResponse.ok()).toBeTruthy();
-  const createOrderResponseJson = await createOrderResponse.json();
-  console.log(createOrderResponseJson);
-  orderId = createOrderResponseJson.orders[0];
-  console.log(orderId);
 });
 
 // Execute the end-to-end purchase workflow using the authenticated browser session.

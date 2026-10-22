@@ -5,7 +5,7 @@ test("Handle iFrames & perform actions on iFrame", async ({ page }) => {
 
   const framePage = await page.frameLocator("#courses-iframe");
 
-  await framePage.locator("a[href*='lifetime-access']:visible").click();
+  await framePage.getByRole("link", { name: "NEW All Access plan" }).click();
 
   const textCheck = await framePage.locator(".text h2").textContent();
 

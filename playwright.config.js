@@ -9,6 +9,9 @@ export default defineConfig({
   // Specify the directory containing Playwright test files.
   testDir: "./tests",
 
+  // Configure a predictable path for browser- and OS-specific snapshots.
+  snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}{ext}",
+
   // Allow tests to run in parallel.
   fullyParallel: true,
 
