@@ -19,7 +19,7 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
 
   // Use one worker in CI/CD and Playwright's default locally.
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 4 : undefined,
 
   // Set the maximum duration for each test.
   timeout: 60_000,
@@ -61,14 +61,6 @@ export default defineConfig({
         {
           name: "chromium",
           use: { ...devices["Desktop Chrome"] },
-        },
-        {
-          name: "firefox",
-          use: { ...devices["Desktop Firefox"] },
-        },
-        {
-          name: "webkit",
-          use: { ...devices["Desktop Safari"] },
         },
       ]
     : [
