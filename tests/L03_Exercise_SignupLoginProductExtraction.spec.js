@@ -56,15 +56,9 @@ test.describe.serial("Signup and Login Flow", () => {
     // Check the age confirmation checkbox to accept the required declaration.
     await page.getByRole("checkbox").check();
 
-    // Pause test execution to inspect the checked checkbox in the browser.
-    await page.pause();
-
     // Uncheck the checkbox to demonstrate locator.uncheck().
     // This changes the checkbox state from checked to unchecked.
     await page.getByRole("checkbox").uncheck();
-
-    // Pause test execution to inspect the unchecked checkbox in the browser.
-    await page.pause();
 
     // Check the checkbox again so the required declaration is accepted
     // before submitting the registration form.
