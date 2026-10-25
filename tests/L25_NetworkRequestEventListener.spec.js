@@ -20,6 +20,9 @@ test.describe.serial("Signup and Login Flow", () => {
   // Test 1: Register a new user and verify successful account creation.
   test("Sign Up - Register a new user successfully", async ({ page }) => {
     await page.on("request", (request) => console.log(request.url()));
+    await page.on("response", (response) =>
+      console.log(response.url(), response.status()),
+    );
     // Navigate to the login page.
     await page.goto(BASE_URL);
 
@@ -66,6 +69,9 @@ test.describe.serial("Signup and Login Flow", () => {
   // Test 2: Log in using the credentials created in Test 1.
   test("Login - Log in with valid credentials", async ({ page }) => {
     await page.on("request", (request) => console.log(request.url()));
+    await page.on("response", (response) =>
+      console.log(response.url(), response.status()),
+    );
     // Navigate to the login page.
     await page.goto(BASE_URL);
 
@@ -87,6 +93,9 @@ test.describe.serial("Signup and Login Flow", () => {
   // place the order, and verify the order in My Orders and its details.
   test("Addition of product into the cart", async ({ page }) => {
     await page.on("request", (request) => console.log(request.url()));
+    await page.on("response", (response) =>
+      console.log(response.url(), response.status()),
+    );
     // Define the target product name.
     const productName = "iphone 13 pro";
 
