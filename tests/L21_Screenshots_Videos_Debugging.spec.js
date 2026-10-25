@@ -38,11 +38,11 @@ test("Login form accepts credentials using CSS locators", async ({ page }) => {
   await page.screencast.start({
     path: "artifacts/login.mp4",
     size: {
-        height:800,
-        width: 1280
+      height: 800,
+      width: 1280,
     },
     fps: 25,
-    quality: 80
+    quality: 80,
   });
 
   // Navigate to the login page
@@ -62,6 +62,5 @@ test("Login form accepts credentials using CSS locators", async ({ page }) => {
     omitBackground: true,
   });
 
-  
   await page.screencast.stop();
 });

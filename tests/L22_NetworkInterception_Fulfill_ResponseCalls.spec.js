@@ -82,7 +82,7 @@ test.beforeAll(async () => {
   orderId = createOrderResponseJson.orders;
 });
 
-test("Network Interception", async ({ page }) => {
+test("Network Interception - Handle the network requests", async ({ page }) => {
   // Inject the authentication token into local storage before the application
   // loads so that the browser can access the authenticated application.
   await page.addInitScript((value) => {
