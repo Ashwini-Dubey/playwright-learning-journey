@@ -19,7 +19,10 @@ console.log("Generated Email:", email_id);
 test.describe.serial("Signup and Login Flow", () => {
   // Test 1: Register a new user and verify successful account creation.
   test("Sign Up - Register a new user successfully", async ({ page }) => {
+    // Listen for outgoing network requests and log the URL of each request.
     await page.on("request", (request) => console.log(request.url()));
+
+    // Listen for incoming network responses and log the response URL along with its HTTP status code.
     await page.on("response", (response) =>
       console.log(response.url(), response.status()),
     );
@@ -68,7 +71,10 @@ test.describe.serial("Signup and Login Flow", () => {
 
   // Test 2: Log in using the credentials created in Test 1.
   test("Login - Log in with valid credentials", async ({ page }) => {
+    // Listen for outgoing network requests and log the URL of each request.
     await page.on("request", (request) => console.log(request.url()));
+
+    // Listen for incoming network responses and log the response URL along with its HTTP status code.
     await page.on("response", (response) =>
       console.log(response.url(), response.status()),
     );
@@ -92,7 +98,10 @@ test.describe.serial("Signup and Login Flow", () => {
   // Test 3: Find a product, add it to the cart, proceed to checkout,
   // place the order, and verify the order in My Orders and its details.
   test("Addition of product into the cart", async ({ page }) => {
+    // Listen for outgoing network requests and log the URL of each request.
     await page.on("request", (request) => console.log(request.url()));
+
+    // Listen for incoming network responses and log the response URL along with its HTTP status code.
     await page.on("response", (response) =>
       console.log(response.url(), response.status()),
     );
