@@ -61,6 +61,7 @@ test.beforeAll(async () => {
 test("Client App Login", async ({ page }) => {
   // Register an initialization script that stores the API token in local storage
   // before application JavaScript executes on each newly navigated document.
+
   await page.addInitScript((value) => {
     window.localStorage.setItem("token", value);
   }, token);
