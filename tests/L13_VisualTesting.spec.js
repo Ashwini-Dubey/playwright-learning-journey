@@ -7,6 +7,6 @@ test("Visual Testing", async ({ page }, testInfo) => {
 
   // Allow minor visual differences of up to 2% of total pixels.
   expect(await page.screenshot()).toMatchSnapshot(screenshotName, {
-    maxDiffPixelRatio: 1.0,
+    maxDiffPixelRatio: 0.2,
   });
 });
