@@ -1,5 +1,7 @@
 import { test as base, expect, request } from "@playwright/test";
 
+let authToken;
+
 export const BASE_URL = "https://eventhub.rahulshettyacademy.com/";
 
 function eventNameGenerator() {
