@@ -133,7 +133,12 @@ export const test = base.extend({
       orderID.replace(/[|]/g, "").trim(),
     );
 
+    // Tear-down
     await use(page);
+  },
+  //DataDriveFixture
+  testData_Order: {
+    productNames: "ADIDAS ORIGINALs",
   },
 });
 
