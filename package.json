@@ -16,6 +16,7 @@
     "reporting-labs": "^0.6.18"
   },
   "dependencies": {
-    "dotenv": "^18.0.7"
+    "dotenv": "^18.0.7",
+    "exceljs": "^3.4.0"
   }
 }
