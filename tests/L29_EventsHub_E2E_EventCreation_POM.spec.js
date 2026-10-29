@@ -4,12 +4,13 @@ import { SignUpPage } from "../page-objects/EventsHub_SignUpPage";
 import { CreateEventsPage } from "../page-objects/EventsHub_CreateEventPage";
 import { DashboardPage } from "../page-objects/EventsHub_DashboardPage";
 import { EventsPage } from "../page-objects/EventsHub_EventsPage";
+import testData from "../utils/L29_EventsHub_E2E_EventCreation_testData.json" with { type: "json" };
 
 function emailGenerator() {
   return `testuser${Date.now()}@test.com`;
 }
 const username = emailGenerator();
-const password = "Password@123";
+const password = testData.password;
 
 //Event TestData
 function eventNameGenerator() {
@@ -17,13 +18,6 @@ function eventNameGenerator() {
 }
 
 const eventName = eventNameGenerator();
-
-const category = "Workshop";
-const city = "Chandigarh";
-const venue = "Sector 31D, Chandigarh";
-const dateTime = "2027-12-01T11:00";
-const price = "250";
-const totalSeats = "50";
 
 test.describe.serial("POM Demo : Events Hub Authentication", () => {
   test("User Sign Up", async ({ page }) => {
@@ -48,12 +42,12 @@ test.describe.serial("POM Demo : Events Hub Authentication", () => {
 
     await createEventsPage.validEventCreation(
       eventName,
-      category,
-      city,
-      venue,
-      dateTime,
-      price,
-      totalSeats,
+      testData.category,
+      testData.city,
+      testData.venue,
+      testData.dateTime,
+      testData.price,
+      testData.totalSeats,
     );
 
     await expect(createEventsPage.eventCreationSuccessMessage).toBeVisible();
