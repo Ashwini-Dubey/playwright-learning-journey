@@ -4,7 +4,9 @@ class DashboardPage {
     this.page = page;
 
     // Locate the "Browse Events →" element using its visible text.
-    this.browseEventsButton = page.getByText("Browse Events →");
+    this.browseEventsButton = page.getByRole("button", {
+      name: "Browse Events →",
+    });
   }
 
   // Click the "Browse Events" element to navigate to the events listing page.
