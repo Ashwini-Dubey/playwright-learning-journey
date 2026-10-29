@@ -34,15 +34,15 @@ test("Multiple Context and  Isolation", async ({ browser }) => {
 
     customerContext = await browser.newContext();
     const customerPage = await customerContext.newPage();
-    await adminPage.goto("https://the-internet.herokuapp.com/");
+    await adminPage.goto("https://eventhub.rahulshettyacademy.com/login");
 
-    await customerPage.goto("https://the-internet.herokuapp.com/");
+    await customerPage.goto("https://eventhub.rahulshettyacademy.com/login");
 
     await adminContext.addCookies([
       {
         name: "test",
         value: "test",
-        url: "https://the-internet.herokuapp.com/",
+        url: "https://eventhub.rahulshettyacademy.com/login",
       },
     ]);
 
@@ -67,7 +67,7 @@ test("Multiple Context and  Isolation", async ({ browser }) => {
       {
         name: "test-customer",
         value: "test-customer",
-        url: "https://the-internet.herokuapp.com/",
+        url: "https://eventhub.rahulshettyacademy.com/login",
       },
     ]);
 

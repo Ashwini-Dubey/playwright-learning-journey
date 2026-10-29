@@ -19,10 +19,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
 
   // Retry failed tests twice in CI/CD; do not retry locally.
-  retries: process.env.CI ? 2 : 0,
+  retries: process.env.CI ? 3 : 3,
 
   // Use one worker in CI/CD and Playwright's default locally.
-  workers: process.env.CI ? 2 : undefined,
+  workers: process.env.CI ? 4 : 3,
 
   // Set the maximum duration for each test.
   timeout: 60_000,
@@ -46,7 +46,8 @@ export default defineConfig({
     trace: "retain-on-failure",
 
     // Run headless in CI/CD and headed locally.
-    headless: !!process.env.CI,
+    //headless: !!process.env.CI,
+    headless: true,
 
     // Capture screenshots only when tests fail.
     screenshot: "only-on-failure",
@@ -65,15 +66,19 @@ export default defineConfig({
           name: "chromium",
           use: { ...devices["Desktop Chrome"] },
         },
-        {
-          name: "webkit",
-          use: { ...devices["Desktop Safari"] },
-        },
       ]
     : [
         {
           name: "chromium",
           use: { ...devices["Desktop Chrome"] },
+        },
+        {
+          name: "webkit",
+          use: { ...devices["Desktop Safari"] },
+        },
+        {
+          name: "firefox",
+          use: { ...devices["Desktop Firefox"] },
         },
       ],
 });
