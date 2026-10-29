@@ -15,7 +15,7 @@ import testData from "../utils/L29_EventsHub_E2E_EventCreation_testDataMultiple.
 // Generate a unique email address for each test run.
 // Date.now() helps prevent duplicate usernames when tests are executed repeatedly.
 function emailGenerator() {
-  return `testuser${Date.now()}@test.com`;
+  return `testuser${Date.now()}${Math.floor(Math.random() * 100000)}@test.com`;
 }
 
 // Generate unique event test data to reduce the chance of event-name conflicts.
