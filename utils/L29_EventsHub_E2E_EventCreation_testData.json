@@ -1,9 +1,47 @@
-{
-  "password": "Password@123",
-  "category": "Workshop",
-  "city": "Chandigarh",
-  "venue": "Chandigarh",
-  "dateTime": "2027-12-01T11:00",
-  "price": "250",
-  "totalSeats": "50"
-}
+[
+  {
+    "password": "Password@123",
+    "category": "Workshop",
+    "city": "Chandigarh",
+    "venue": "Chandigarh",
+    "dateTime": "2027-12-01T11:00",
+    "price": "1250",
+    "totalSeats": "150"
+  },
+  {
+    "password": "Password@123",
+    "category": "Conference",
+    "city": "Panchkula",
+    "venue": "Panchkula",
+    "dateTime": "2027-12-01T11:00",
+    "price": "250",
+    "totalSeats": "350"
+  },
+  {
+    "password": "Password@123",
+    "category": "Concert",
+    "city": "Kharar",
+    "venue": "Kharar",
+    "dateTime": "2027-12-01T11:00",
+    "price": "50",
+    "totalSeats": "1050"
+  },
+  {
+    "password": "Password@123",
+    "category": "Sports",
+    "city": "Landran",
+    "venue": "Landran",
+    "dateTime": "2027-12-01T11:00",
+    "price": "250",
+    "totalSeats": "50"
+  },
+  {
+    "password": "Password@123",
+    "category": "Festival",
+    "city": "Mohali",
+    "venue": "Mohali",
+    "dateTime": "2027-12-01T11:00",
+    "price": "350",
+    "totalSeats": "500"
+  }
+]
