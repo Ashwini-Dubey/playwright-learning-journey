@@ -24,7 +24,7 @@
 
 import { test, expect } from "@playwright/test";
 
-test("Multiple Context and  Isolation", async ({ browser }) => {
+test("@Web Multiple Context and  Isolation", async ({ browser }) => {
   let adminContext;
   let customerContext;
 

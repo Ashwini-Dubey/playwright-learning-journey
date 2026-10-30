@@ -31,7 +31,7 @@ const eventName = eventNameGenerator();
 const password = testData.password;
 // Group related authentication and event-creation tests.
 // Serial mode executes these tests in the declared order within each browser project.
-test.describe.serial("POM Demo : Events Hub Authentication ", () => {
+test.describe.serial("@Web POM Demo : Events Hub Authentication ", () => {
   // Verify that a new user can successfully sign up.
   test("User Sign Up", async ({ page }) => {
     // Create the SignUpPage object using Playwright's page fixture.

@@ -40,7 +40,7 @@ async function readExcel(worksheet, searchText) {
   return output;
 }
 
-test("Upload Download Excel Validation", async ({ page }) => {
+test("@Web Upload Download Excel Validation", async ({ page }) => {
   await page.goto(
     "https://rahulshettyacademy.com/upload-download-test/index.html",
   );

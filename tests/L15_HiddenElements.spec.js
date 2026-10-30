@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("Element's Hidden/Displayed Mode with Expect Assertions", async ({
+test("@Web Element's Hidden/Displayed Mode with Expect Assertions", async ({
   page,
 }) => {
   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");

@@ -56,7 +56,9 @@ test.beforeAll(async () => {
   orderId = createOrderResponseJson.orders;
 });
 
-test("Network Interception - Modify the network requests", async ({ page }) => {
+test("@Web Network Interception - Modify the network requests", async ({
+  page,
+}) => {
   await page.addInitScript((value) => {
     window.localStorage.setItem("token", value);
   }, token);

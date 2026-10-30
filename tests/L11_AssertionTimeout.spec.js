@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("Playwright Timeout 1", async ({ page }) => {
+test("@Web Playwright Timeout 1", async ({ page }) => {
   // Set the maximum execution time for this test to 60 seconds.
   // This overrides the default test timeout but does not affect other tests.
   test.setTimeout(60000);
@@ -34,7 +34,7 @@ test("Playwright Timeout 1", async ({ page }) => {
     .click();
 });
 
-test("Playwright Timeout 2", async ({ page }) => {
+test("@Web Playwright Timeout 2", async ({ page }) => {
   // Mark this test as slow, which triples its default test timeout.
   // This does not change the default assertion timeout.
   test.slow();

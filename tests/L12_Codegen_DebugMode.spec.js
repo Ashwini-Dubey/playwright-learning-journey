@@ -10,7 +10,7 @@ refined, and reused as an automated test.
 
 import { test, expect } from "@playwright/test";
 
-test("test", async ({ page }) => {
+test("@Web test", async ({ page }) => {
   // Navigate to Google Maps.
   await page.goto("https://www.google.com/maps");
 

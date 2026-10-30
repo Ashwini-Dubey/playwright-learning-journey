@@ -89,7 +89,7 @@ async function login(page) {
 // Group the related test cases into a serial suite.
 // Serial execution ensures that registration runs before the login and
 // booking workflow that depends on the newly registered account.
-test.describe.serial("Full Booking Flow with Event Creation", () => {
+test.describe.serial("@Web Full Booking Flow with Event Creation", () => {
   // TC 01: User Registration
   // Register a new test account and verify that the application
   // returns to the expected base URL.

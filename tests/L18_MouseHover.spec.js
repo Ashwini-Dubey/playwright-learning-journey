@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("Mousehover", async ({ page }) => {
+test("@Web Mousehover", async ({ page }) => {
   // Navigate to the Rahul Shetty Academy Automation Practice page.
   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
 

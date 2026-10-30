@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("Handle iFrames & perform actions on iFrame", async ({ page }) => {
+test("@Web Handle iFrames & perform actions on iFrame", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
 
   const framePage = await page.frameLocator("#courses-iframe");

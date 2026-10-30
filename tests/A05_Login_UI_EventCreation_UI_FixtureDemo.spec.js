@@ -3,7 +3,7 @@ Task 1 — authenticatedPage fixture Build a fixture that logs into EventHub thr
 */
 import { test, expect } from "./utils/A05_Login_UI_EventCreation_UI_Fixture.js";
 
-test("Build a Two-Fixture Test — Login Fixture + Event Creation Fixture", async ({
+test("@Web Build a Two-Fixture Test — Login Fixture + Event Creation Fixture", async ({
   eventCreationPage,
 }) => {
   await expect(eventCreationPage.getByText("Event created!")).toBeVisible();

@@ -16,7 +16,7 @@ console.log("Generated Email:", email_id);
 const BASE_URL = "https://playwrightlab.github.io/";
 
 // Group related tests for form elements under a single test suite.
-test.describe("Form Elements", () => {
+test.describe("@Web Form Elements", () => {
   // Test the registration form by interacting with its input fields and controls.
   test("TC01 : Registration Form", async ({ page }) => {
     // Navigate to the practice website.

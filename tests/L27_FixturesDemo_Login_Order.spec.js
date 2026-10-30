@@ -1,6 +1,6 @@
 import { test, expect } from "./utils/fixtures_2.js";
 
-test("Verify user login using custom fixture", async ({
+test("@Web Verify user login using custom fixture", async ({
   authenticatedPage,
   orderPage,
   testData_Order,

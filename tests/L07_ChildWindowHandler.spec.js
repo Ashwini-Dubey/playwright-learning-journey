@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("Child Window Handling", async ({ browser }) => {
+test("@Web Child Window Handling", async ({ browser }) => {
   const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
 
   const context = await browser.newContext();

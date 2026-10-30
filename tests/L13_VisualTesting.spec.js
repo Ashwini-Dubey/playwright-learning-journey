@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test.skip("Visual Testing", async ({ page }, testInfo) => {
+test.skip("@Web Visual Testing", async ({ page }, testInfo) => {
   await page.goto("https://google.com/");
 
   const screenshotName = `landing-${testInfo.project.name}-${process.platform}.png`;

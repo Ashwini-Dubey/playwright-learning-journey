@@ -85,7 +85,7 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
       },
     },
-
+    /*
     // 2. Desktop Firefox - Firefox engine.
     {
       name: "Desktop Firefox",
@@ -116,6 +116,8 @@ export default defineConfig({
       use: {
         ...devices["iPhone 13"],
       },
+      
     },
+    */
   ],
 });

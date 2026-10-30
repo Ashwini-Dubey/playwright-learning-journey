@@ -1,6 +1,6 @@
 import { test } from "@playwright/test";
 
-test("Browser Controls - Back/Forward", async ({ page }) => {
+test("@Web Browser Controls - Back/Forward", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
   await page.goto("https://www.google.com/");
   await page.goBack();

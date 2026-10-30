@@ -9,7 +9,7 @@ import {
   eventName,
 } from "./utils/A05_Login_UI_EventCreation_API_Fixture.js";
 
-test("Build a Two-Fixture Test — Login Fixture + Event Creation Fixture", async ({
+test("@Web @API Build a Two-Fixture Test — Login Fixture + Event Creation Fixture", async ({
   createEvent,
   authenticatedPage,
 }) => {

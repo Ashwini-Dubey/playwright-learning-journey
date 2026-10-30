@@ -16,7 +16,7 @@ console.log("Generated Email:", email_id);
 
 // Run tests sequentially. If a test fails, subsequent tests in this
 // serial group are skipped.
-test.describe.serial("Signup and Login Flow", () => {
+test.describe.serial("@Web Signup and Login Flow", () => {
   // Test 1: Register a new user and verify successful account creation.
   test("Sign Up - Register a new user successfully", async ({ page }) => {
     // Navigate to the login page.
@@ -136,7 +136,9 @@ test.describe.serial("Signup and Login Flow", () => {
     }
 
     // Verify that the cart badge displays one item.
-    await expect(page.locator("[routerlink*='cart']").locator("label")).toHaveText("1");
+    await expect(
+      page.locator("[routerlink*='cart']").locator("label"),
+    ).toHaveText("1");
 
     // Navigate to the cart page.
     await page.locator("[routerlink*='cart']").click();

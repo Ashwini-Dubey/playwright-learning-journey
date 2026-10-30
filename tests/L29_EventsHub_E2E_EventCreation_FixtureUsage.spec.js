@@ -1,4 +1,3 @@
-
 import {
   test,
   expect,
@@ -43,12 +42,10 @@ const eventName = eventNameGenerator();
 // 1. Register a new user.
 // 2. Log in using the registered user's credentials.
 // 3. Create an event using the authenticated session.
-test.describe.serial("POM Demo: Events Hub Authentication", () => {
-
+test.describe.serial("@Web POM Demo: Events Hub Authentication", () => {
   // Test Scenario 1: User Registration
   // Verify that a new user can successfully register in the application.
   test("User Sign Up", async ({ page, testDataForEventCreation }) => {
-
     // Initialize the SignUpPage POM using the current test's page fixture.
     // The page object provides reusable navigation and signup methods.
     const signUpPage = new SignUpPage(page);
@@ -61,16 +58,12 @@ test.describe.serial("POM Demo: Events Hub Authentication", () => {
     // - Password provided by the custom test-data fixture.
     //
     // The fixture keeps test configuration separate from test implementation.
-    await signUpPage.validSignUp(
-      username,
-      testDataForEventCreation.password
-    );
+    await signUpPage.validSignUp(username, testDataForEventCreation.password);
   });
 
   // Test Scenario 2: User Login and Event Creation
   // Verify that the registered user can log in and create a new event.
   test("User Login", async ({ page, testDataForEventCreation }) => {
-
     // Initialize the required Page Object Model classes.
     // Each POM receives the current test's page fixture and exposes
     // the locators and actions required for its respective application page.
@@ -85,10 +78,7 @@ test.describe.serial("POM Demo: Events Hub Authentication", () => {
     // Step 2: Authenticate using the credentials created during signup.
     // The username is reused from module-level test data,
     // while the password is retrieved from the custom fixture.
-    await loginPage.validLogin(
-      username,
-      testDataForEventCreation.password
-    );
+    await loginPage.validLogin(username, testDataForEventCreation.password);
 
     // Step 3: Verify successful navigation to the dashboard
     // by checking the visibility of the Browse Events button.
@@ -117,14 +107,12 @@ test.describe.serial("POM Demo: Events Hub Authentication", () => {
       testDataForEventCreation.venue,
       testDataForEventCreation.dateTime,
       testDataForEventCreation.price,
-      testDataForEventCreation.totalSeats
+      testDataForEventCreation.totalSeats,
     );
 
     // Step 7: Verify that the application displays the event-creation
     // success message, confirming that the creation operation succeeded.
-    await expect(
-      createEventsPage.eventCreationSuccessMessage
-    ).toBeVisible();
+    await expect(createEventsPage.eventCreationSuccessMessage).toBeVisible();
 
     // Step 8: Verify that the newly created event is visible
     // in the events listing using the event-specific locator.
@@ -132,6 +120,5 @@ test.describe.serial("POM Demo: Events Hub Authentication", () => {
     // This assertion assumes the application has returned to, or displayed,
     // the events listing after successful event creation.
     await expect(eventsPage.searchEventText).toBeVisible();
-
   });
 });

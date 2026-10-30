@@ -12,7 +12,9 @@ const rs_password = process.env.RS_PASSWORD;
 const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
 
 // Test: Verify radio buttons, dropdown selection, checkbox, and login.
-test("Login Form - Verify input fields and form controls", async ({ page }) => {
+test("@Web Login Form - Verify input fields and form controls", async ({
+  page,
+}) => {
   // Define reusable locators for the page elements.
   const usernameField = page.getByLabel("Username");
   const passwordField = page.getByLabel("Password");

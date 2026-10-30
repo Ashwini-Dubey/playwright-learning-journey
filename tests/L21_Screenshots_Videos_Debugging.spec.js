@@ -5,7 +5,7 @@ import "dotenv/config";
 const rs_username = process.env.RS_USERNAME;
 const rs_password = process.env.RS_PASSWORD;
 
-test("Screenshots, Videos and Debugging - Page & Element Level", async ({
+test("@Web Screenshots, Videos and Debugging - Page & Element Level", async ({
   page,
 }) => {
   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
@@ -27,7 +27,7 @@ test("Screenshots, Videos and Debugging - Page & Element Level", async ({
   await expect(page.locator("#displayed-text")).toBeHidden();
 });
 
-test("Login form accepts credentials using CSS locators", async ({ page }) => {
+test("@Web Login form accepts credentials using CSS locators", async ({ page }) => {
   // Define the login page URL
   const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
 

@@ -66,7 +66,9 @@ async function loginAndGoToBooking(page) {
   await expect(page.getByText("Browse Events →")).toBeVisible();
 }
 
-test("TC01: Single ticket booking is eligible for refund", async ({ page }) => {
+test("@Web TC01: Single ticket booking is eligible for refund", async ({
+  page,
+}) => {
   // Step 1: Log in and verify access to the application.
   await loginAndGoToBooking(page);
 
@@ -131,7 +133,7 @@ test("TC01: Single ticket booking is eligible for refund", async ({ page }) => {
   );
 });
 
-test("TC02: Group ticket booking is NOT eligible for refund", async ({
+test("@Web TC02: Group ticket booking is NOT eligible for refund", async ({
   page,
 }) => {
   // Step 1: Log in and verify access to the application.

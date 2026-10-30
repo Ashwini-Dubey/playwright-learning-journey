@@ -30,7 +30,7 @@ for (const data of testData) {
   // Group related authentication and event-creation tests.
   // Serial mode executes these tests in the declared order within each browser project.
   test.describe
-    .serial(`POM Demo : Events Hub Authentication ${data.category}`, () => {
+    .serial(`@Web POM Demo : Events Hub Authentication ${data.category}`, () => {
     // Verify that a new user can successfully sign up.
     test("User Sign Up", async ({ page }) => {
       // Create the SignUpPage object using Playwright's page fixture.

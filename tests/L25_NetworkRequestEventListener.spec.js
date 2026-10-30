@@ -16,7 +16,7 @@ console.log("Generated Email:", email_id);
 
 // Run tests sequentially. If a test fails, subsequent tests in this
 // serial group are skipped.
-test.describe.serial("Signup and Login Flow", () => {
+test.describe.serial("@Web Signup and Login Flow", () => {
   // Test 1: Register a new user and verify successful account creation.
   test("Sign Up - Register a new user successfully", async ({ page }) => {
     // Listen for outgoing network requests and log the URL of each request.

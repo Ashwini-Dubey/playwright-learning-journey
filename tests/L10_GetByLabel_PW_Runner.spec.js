@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 // Import the Playwright test runner and expect assertion library.
 
-test("Playwright Special Locators", async ({ page }) => {
+test("@Web Playwright Special Locators", async ({ page }) => {
   // Navigate to the Angular Practice application.
   await page.goto("https://rahulshettyacademy.com/angularpractice/");
 

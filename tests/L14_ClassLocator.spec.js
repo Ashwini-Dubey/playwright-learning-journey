@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 
-test("Playwright Class Locators - all()", async ({ page }) => {
+test("@Web Playwright Class Locators - all()", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/angularpractice/");
 
   await page.getByRole("link", { name: "Shop" }).click();
@@ -9,7 +9,7 @@ test("Playwright Class Locators - all()", async ({ page }) => {
   console.log(checkAll);
 });
 
-test("Playwright Class Locators - allInnerTexts()", async ({ page }) => {
+test("@Web Playwright Class Locators - allInnerTexts()", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/angularpractice/");
 
   await page.getByRole("link", { name: "Shop" }).click();
@@ -18,7 +18,7 @@ test("Playwright Class Locators - allInnerTexts()", async ({ page }) => {
   console.log(checkAllInnerTexts);
 });
 
-test("Playwright Class Locators - allTextContents()", async ({ page }) => {
+test("@Web Playwright Class Locators - allTextContents()", async ({ page }) => {
   await page.goto("https://rahulshettyacademy.com/angularpractice/");
 
   await page.getByRole("link", { name: "Shop" }).click();

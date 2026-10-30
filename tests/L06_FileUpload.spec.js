@@ -4,7 +4,7 @@ import path from "path";
 const BASE_URL = "https://playwrightlab.github.io/";
 
 // Test area for uploading files through a file input.
-test("File Upload", async ({ page }) => {
+test("@Web File Upload", async ({ page }) => {
   // Navigate to the practice website.
   await page.goto(BASE_URL);
 

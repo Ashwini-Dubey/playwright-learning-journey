@@ -44,7 +44,7 @@ const createOrderPayload = {
 
 // ################ API CALL ################
 
-test.describe.serial("E2E Flow with API", () => {
+test.describe.serial("@API E2E Flow with API", () => {
   // Verify that a new user can be registered successfully through the API.
   test("User Registration", async () => {
     // Create an isolated API request context for sending HTTP requests.

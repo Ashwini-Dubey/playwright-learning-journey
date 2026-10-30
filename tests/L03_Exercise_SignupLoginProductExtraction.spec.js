@@ -14,7 +14,7 @@ console.log("Generated Email:", email_id);
 
 // Run these tests sequentially.
 // If a test fails, Playwright skips the remaining tests in this serial group.
-test.describe.serial("Signup and Login Flow", () => {
+test.describe.serial("@Web Signup and Login Flow", () => {
   // Test 1: Verify that a new user can register successfully.
   test("Sign Up - Register a new user successfully", async ({ page }) => {
     // Navigate to the login page.

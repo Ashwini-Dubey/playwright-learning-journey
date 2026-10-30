@@ -19,7 +19,9 @@ const rs_username = process.env.RS_USERNAME;
 const rs_password = process.env.RS_PASSWORD;
 
 // Test 1: Enter credentials using reusable CSS locators
-test("Login form accepts credentials using CSS locators", async ({ page }) => {
+test("@Web Login form accepts credentials using CSS locators", async ({
+  page,
+}) => {
   // Define the login page URL
   const BASE_URL = "https://rahulshettyacademy.com/loginpagePractise/";
 
@@ -36,7 +38,7 @@ test("Login form accepts credentials using CSS locators", async ({ page }) => {
 });
 
 // Test 2: Login using accessible label and role locators
-test("User logs in successfully using accessible locators", async ({
+test("@Web User logs in successfully using accessible locators", async ({
   page,
 }) => {
   // Open the login page
@@ -58,7 +60,7 @@ test("User logs in successfully using accessible locators", async ({
 });
 
 // Test 3: Verify the error message displayed after an invalid login attempt
-test("User sees an error message when login credentials are invalid", async ({
+test("@Web User sees an error message when login credentials are invalid", async ({
   page,
 }) => {
   // Open the login page
@@ -87,7 +89,7 @@ test("User sees an error message when login credentials are invalid", async ({
 });
 
 // Test 4: Extracting the details of products listed in the shop
-test("Extracting the details of a product", async ({ page }) => {
+test("@Web Extracting the details of a product", async ({ page }) => {
   // Navigate to the login page
   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
