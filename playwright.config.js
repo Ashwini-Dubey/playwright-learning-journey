@@ -85,39 +85,5 @@ export default defineConfig({
         ...devices["Desktop Chrome"],
       },
     },
-    /*
-    // 2. Desktop Firefox - Firefox engine.
-    {
-      name: "Desktop Firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-      },
-    },
-
-    // 3. Desktop Safari engine - WebKit.
-    {
-      name: "Desktop WebKit",
-      use: {
-        ...devices["Desktop Safari"],
-      },
-    },
-
-    // 4. Android mobile emulation - Pixel 7.
-    {
-      name: "Android",
-      use: {
-        ...devices["Pixel 7"],
-      },
-    },
-
-    // 5. iPhone mobile emulation - iPhone 13.
-    {
-      name: "iPhone",
-      use: {
-        ...devices["iPhone 13"],
-      },
-      
-    },
-    */
   ],
 });

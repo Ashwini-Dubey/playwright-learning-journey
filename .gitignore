@@ -7,6 +7,10 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 
+# Allure Reports
+allure-results/
+allure-report/
+
 # Playwright authentication state
 /playwright/.auth/
 
@@ -47,3 +51,5 @@ reporting-labs.history.json
 !tests/L13_VisualTesting.spec.js-snapshots/
 !tests/L13_VisualTesting.spec.js-snapshots/*.png
 !tests/L13_VisualTesting.spec.js-snapshots/*.jpg
+
+/artifacts

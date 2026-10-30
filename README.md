@@ -196,6 +196,15 @@ This installs Chromium and the required system dependencies for the runner.
 
 ## 4. Reports and Debugging
 
+### Installation of Allure & Generation of an Allure report
+
+```bash
+npm i -D @playwright/test allure-playwright
+npx playwright test --reporter=line,allure-playwright
+allure generate ./allure-results --clean
+allure open ./allure-report
+```
+
 ### Generate an HTML report
 
 ```bash
