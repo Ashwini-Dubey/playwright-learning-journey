@@ -1,11 +1,11 @@
-import { createBdd } from "playwright-bdd";
-import { test, expect } from "@playwright/test";
+import { createBdd, test } from "playwright-bdd";
+import { expect } from "@playwright/test";
 
 const { Given, When, Then } = createBdd(test);
 
 // Navigate to EventsHub login page
 Given("the user is on the EventsHub login page", async ({ page }) => {
-  await page.goto("/login");
+  await page.goto("https://eventhub.rahulshettyacademy.com/");
 });
 
 // Enter valid username and password
@@ -24,10 +24,5 @@ When("the user clicks the Sign In button", async ({ page }) => {
 
 // Verify successful login
 Then("the user should be logged in successfully", async ({ page }) => {
-  await expect(page.getByText("Welcome")).toBeVisible();
-});
-
-// Verify dashboard redirection
-Then("the user should be redirected to the dashboard", async ({ page }) => {
-  await expect(page).toHaveURL(/dashboard/);
+  await expect(page.getByText("Browse Events →")).toBeVisible();
 });

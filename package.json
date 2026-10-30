@@ -6,7 +6,9 @@
   "scripts": {
     "regression": "npx playwright test",
     "webTests": "npx playwright test --grep @Web",
-    "APITests": "npx playwright test --grep @API"
+    "APITests": "npx playwright test --grep @API",
+    "bdd:generate": "bddgen --config playwright-bdd.config.js",
+    "bdd:test": "npm run bdd:generate && npx playwright test --config playwright-bdd.config.js"
   },
   "keywords": [],
   "author": "",
