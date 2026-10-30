@@ -3,74 +3,119 @@ import dotenv from "dotenv";
 import { defineConfig, devices } from "@playwright/test";
 import reportingLabs from "./reporting-labs.config";
 
+// Load environment variables from the .env file.
 dotenv.config({ path: ".env" });
 
 export default defineConfig({
-  // Specify the directory containing Playwright test files.
+  // Directory containing all Playwright test files.
   testDir: "./tests",
 
-  // Configure a predictable path for browser- and OS-specific snapshots.
-  snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}{ext}",
+  // Generate separate snapshots for different projects and platforms.
+  snapshotPathTemplate:
+    "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
 
-  // Allow tests to run in parallel.
+  // Allow independent tests to execute in parallel.
   fullyParallel: true,
 
   // Prevent accidental test.only usage in CI/CD.
   forbidOnly: !!process.env.CI,
 
-  // Retry failed tests twice in CI/CD; do not retry locally.
-  retries: process.env.CI ? 1 : 1,
+  // Retry failed tests once.
+  retries: 1,
 
-  // Use one worker in CI/CD and Playwright's default locally.
-  workers: process.env.CI ? 2 : 2,
+  // Maximum number of parallel workers.
+  workers: 2,
 
-  // Set the maximum duration for each test.
+  // Maximum execution time for an individual test.
   timeout: 60_000,
 
-  // Set the maximum timeout for web-first assertions.
+  // Maximum timeout for web-first assertions.
   expect: {
     timeout: 5_000,
   },
 
-  // Configure test output and reporting tools.
+  // Configure test reporters.
   reporter: [
     ["list"],
     ["reporting-labs", reportingLabs],
     ["junit", { outputFile: "test-results/junit.xml" }],
-    ["html", { outputFolder: "playwright-report", open: "never" }],
+    [
+      "html",
+      {
+        outputFolder: "playwright-report",
+        open: "never",
+      },
+    ],
   ],
 
-  // Configure browser execution and debugging artifacts.
+  // Global browser and test execution settings.
   use: {
-    // Record a trace when a test is retried.
+    // Capture trace when a test fails.
     trace: "retain-on-failure",
 
-    // Run headless in CI/CD and headed locally.
+    // Run headless in CI and headed locally.
     headless: !!process.env.CI,
-    //headless: true,
 
-    // Capture screenshots only when tests fail.
+    // Capture screenshots only for failed tests.
     screenshot: "only-on-failure",
 
-    // Retain videos when tests fail.
+    // Retain videos for failed tests.
     video: "retain-on-failure",
 
-    actionTimeout: 10 * 1000,
-    navigationTimeout: 10 * 1000,
+    // Maximum time for individual browser actions.
+    actionTimeout: 10_000,
+
+    // Maximum time for navigation operations.
+    navigationTimeout: 10_000,
+
+    // Default desktop viewport.
+    viewport: {
+      width: 1280,
+      height: 720,
+    },
   },
 
-  // Run all three browsers in CI/CD and Chromium only locally.
-  projects: process.env.CI
-    ? [
-        {
-          name: "chromium",
-          use: { ...devices["Desktop Chrome"] },
-        },
-      ]
-    : [
-        {
-          name: "chromium",
-          use: { ...devices["Desktop Chrome"] },
-        },
-      ],
+  // Browser and device execution matrix.
+  // Every test file runs against each configured project.
+  projects: [
+    // 1. Desktop Chrome - Chromium engine.
+    {
+      name: "Desktop Chrome",
+      use: {
+        ...devices["Desktop Chrome"],
+      },
+    },
+
+    // 2. Desktop Firefox - Firefox engine.
+    {
+      name: "Desktop Firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+      },
+    },
+
+    // 3. Desktop Safari engine - WebKit.
+    {
+      name: "Desktop WebKit",
+      use: {
+        ...devices["Desktop Safari"],
+      },
+    },
+
+    // 4. Android mobile emulation - Pixel 7.
+    {
+      name: "Android",
+      use: {
+        ...devices["Pixel 7"],
+      },
+    },
+
+    // 5. iPhone mobile emulation - iPhone 13.
+    {
+      name: "iPhone",
+      use: {
+        ...devices["iPhone 13"],
+      },
+    },
+  ],
 });
