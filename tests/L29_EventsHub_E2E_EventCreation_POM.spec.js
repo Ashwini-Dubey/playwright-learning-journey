@@ -19,7 +19,8 @@ function emailGenerator() {
 }
 
 // Generate the credentials used by the signup and login tests.
-const username = emailGenerator();
+//const username = emailGenerator();
+const username = "testuser1792517543162@test.com";
 
 // Generate unique event test data to reduce the chance of event-name conflicts.
 function eventNameGenerator() {

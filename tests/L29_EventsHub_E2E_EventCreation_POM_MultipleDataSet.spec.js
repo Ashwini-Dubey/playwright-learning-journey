@@ -24,7 +24,8 @@ function eventNameGenerator() {
 }
 
 for (const data of testData) {
-  const username = emailGenerator();
+  //const username = emailGenerator();
+  const username = "testuser1792517543162@test.com";
   const password = data.password;
   const eventName = eventNameGenerator();
   // Group related authentication and event-creation tests.

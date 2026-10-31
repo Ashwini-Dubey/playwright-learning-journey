@@ -22,7 +22,8 @@ function emailGenerator() {
 // Both signup and login tests reuse the same credentials.
 // This allows the second test to authenticate using the account
 // registered during the first test.
-const username = emailGenerator();
+//const username = emailGenerator();
+const username = "testuser1792517543162@test.com";
 
 // Generate a unique event name to minimize conflicts with
 // previously created events in the application.
