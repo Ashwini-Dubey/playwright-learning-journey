@@ -1,4 +1,4 @@
-// Generated from: features/EventsHub.feature
+// Generated from: features/EventsHub_Login.feature
 import { test } from "playwright-bdd";
 
 test.describe('User Authentication', () => {
@@ -16,7 +16,7 @@ test.describe('User Authentication', () => {
 
 test.use({
   $test: [({}, use) => use(test), { scope: 'test', box: true }],
-  $uri: [({}, use) => use('features/EventsHub.feature'), { scope: 'test', box: true }],
+  $uri: [({}, use) => use('features/EventsHub_Login.feature'), { scope: 'test', box: true }],
   $bddFileData: [({}, use) => use(bddFileData), { scope: "test", box: true }],
 });
 
